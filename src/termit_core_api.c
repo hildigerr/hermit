@@ -197,8 +197,8 @@ void termit_reconfigure()
 
     termit_create_popup_menu();
     termit_create_menubar();
-    gtk_box_pack_start((configs.top_menu)?GTK_CONTAINER(termit.vbox):GTK_CONTAINER(termit.hbox), termit.menu_bar, FALSE, 0, 0);
-    gtk_box_reorder_child((configs.top_menu)?GTK_CONTAINER(termit.vbox):GTK_CONTAINER(termit.hbox), termit.menu_bar, 0);
+    gtk_box_pack_start((configs.top_menu)?GTK_BOX(termit.vbox):GTK_BOX(termit.hbox), termit.menu_bar, FALSE, 0, 0);
+    gtk_box_reorder_child((configs.top_menu)?GTK_BOX(termit.vbox):GTK_BOX(termit.hbox), termit.menu_bar, 0);
     gtk_widget_show_all(termit.main_window);
     termit_after_show_all();
 }

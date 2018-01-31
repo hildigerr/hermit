@@ -292,7 +292,7 @@ void termit_lua_options_loader(const gchar* name, lua_State* ls, int index, void
             if (!configs.default_tabs) {
                 configs.default_tabs = g_array_new(FALSE, TRUE, sizeof(struct TabInfo));
             }
-            TRACE("tabs at index: %d tabs.size=%zd", index, configs.default_tabs->len);
+            TRACE("tabs at index: %d tabs.size=%d", index, configs.default_tabs->len);
             if (termit_lua_load_table(ls, tabsLoader, index, configs.default_tabs)
                     != TERMIT_LUA_TABLE_LOADER_OK) {
                 ERROR("openTab failed");

@@ -245,7 +245,7 @@ void termit_create_popup_menu()
     gtk_menu_shell_append(GTK_MENU_SHELL(termit.menu), mi_exit);
 
     // User popup menus
-    TRACE("user_popup_menus->len=%zd", configs.user_popup_menus->len);
+    TRACE("user_popup_menus->len=%d", configs.user_popup_menus->len);
     guint j = 0;
     for (; j<configs.user_popup_menus->len; ++j) {
         struct UserMenu* um = &g_array_index(configs.user_popup_menus, struct UserMenu, j);
@@ -254,7 +254,7 @@ void termit_create_popup_menu()
         GtkWidget *utils_menu = gtk_menu_new();
         gtk_menu_item_set_submenu(GTK_MENU_ITEM(mi_util), utils_menu);
 
-        TRACE("%s items->len=%zd", um->name, um->items->len);
+        TRACE("%s items->len=%d", um->name, um->items->len);
         guint i = 0;
         for (; i<um->items->len; i++) {
             struct UserMenuItem* umi = &g_array_index(um->items, struct UserMenuItem, i);
