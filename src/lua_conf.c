@@ -103,6 +103,22 @@ void termit_config_get_erase_binding(VteTerminalEraseBinding* opt, lua_State* ls
     g_free(str);
 }
 
+void termit_config_get_cursor_blink_mode(VteTerminalCursorBlinkMode* opt, lua_State* ls, int index)
+{
+    gchar* str = NULL;
+    termit_config_get_string(&str, ls, index);
+    *opt = termit_cursor_blink_mode_from_string(str);
+    g_free(str);
+}
+
+void termit_config_get_cursor_shape(VteTerminalCursorShape* opt, lua_State* ls, int index)
+{
+    gchar* str = NULL;
+    termit_config_get_string(&str, ls, index);
+    *opt = termit_cursor_shape_from_string(str);
+    g_free(str);
+}
+
 static void matchesLoader(const gchar* pattern, struct lua_State* ls, int index, void* data)
 {
     TRACE("pattern=%s index=%d data=%p", pattern, index, data);
@@ -267,6 +283,10 @@ void termit_lua_options_loader(const gchar* name, lua_State* ls, int index, void
         termit_config_get_erase_binding(&(p_cfg->default_bksp), ls, index);
     else if (!strcmp(name, "deleteBinding"))
         termit_config_get_erase_binding(&(p_cfg->default_delete), ls, index);
+    else if (!strcmp(name, "cursorBlinkMode"))
+        termit_config_get_cursor_blink_mode(&(p_cfg->default_blink), ls, index);
+    else if (!strcmp(name, "cursorShape"))
+        termit_config_get_cursor_shape(&(p_cfg->default_shape), ls, index);
     else if (!strcmp(name, "colormap")) {
         termit_lua_load_colormap(ls, index, &configs.style.colors, &configs.style.colors_size);
     } else if (!strcmp(name, "matches")) {

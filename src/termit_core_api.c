@@ -357,6 +357,8 @@ void termit_append_tab_with_details(const struct TabInfo* ti)
     pTab->encoding = (ti->encoding) ? g_strdup(ti->encoding) : g_strdup(configs.default_encoding);
     pTab->bksp_binding = ti->bksp_binding;
     pTab->delete_binding = ti->delete_binding;
+    pTab->cursor_blink_mode = ti->cursor_blink_mode;
+    pTab->cursor_shape = ti->cursor_shape;
     pTab->hbox = gtk_hbox_new(FALSE, 0);
     pTab->vte = vte_terminal_new();
 
@@ -367,6 +369,8 @@ void termit_append_tab_with_details(const struct TabInfo* ti)
     vte_terminal_set_mouse_autohide(VTE_TERMINAL(pTab->vte), TRUE);
     vte_terminal_set_backspace_binding(VTE_TERMINAL(pTab->vte), pTab->bksp_binding);
     vte_terminal_set_delete_binding(VTE_TERMINAL(pTab->vte), pTab->delete_binding);
+    vte_terminal_set_cursor_blink_mode(VTE_TERMINAL(pTab->vte), pTab->cursor_blink_mode);
+    vte_terminal_set_cursor_shape(VTE_TERMINAL(pTab->vte), pTab->cursor_shape);
     vte_terminal_search_set_wrap_around(VTE_TERMINAL(pTab->vte), TRUE);
 
     guint l = 0;
@@ -492,6 +496,8 @@ void termit_append_tab_with_command(gchar** argv)
     struct TabInfo ti = {};
     ti.bksp_binding = configs.default_bksp;
     ti.delete_binding = configs.default_delete;
+    ti.cursor_blink_mode = configs.default_blink;
+    ti.cursor_shape = configs.default_shape;
     ti.argv = argv;
     termit_append_tab_with_details(&ti);
 }

@@ -49,6 +49,60 @@ VteTerminalEraseBinding termit_erase_binding_from_string(const char* str)
     return VTE_ERASE_AUTO;
 }
 
+static struct {
+    const char* name;
+    VteTerminalCursorBlinkMode val;
+} cursor_blink_modes[] = {
+    {"System", VTE_CURSOR_BLINK_SYSTEM},
+    {"BlinkOn", VTE_CURSOR_BLINK_ON},
+    {"BlinkOff", VTE_CURSOR_BLINK_OFF}
+};
+static guint BlinkModesSz = sizeof(cursor_blink_modes)/sizeof(cursor_blink_modes[0]);
+
+const char* termit_cursor_blink_mode_to_string(VteTerminalCursorBlinkMode val)
+{
+    return cursor_blink_modes[val].name;
+}
+
+VteTerminalCursorBlinkMode termit_cursor_blink_mode_from_string(const char* str)
+{
+    guint i = 0;
+    for (; i < BlinkModesSz; ++i) {
+        if (strcmp(str, cursor_blink_modes[i].name) == 0) {
+            return cursor_blink_modes[i].val;
+        }
+    }
+    ERROR("unknown blink mode [%s], using System", str);
+    return VTE_CURSOR_BLINK_SYSTEM;
+}
+
+static struct {
+    const char* name;
+    VteTerminalCursorShape val;
+} cursor_shapes[] = {
+    {"Block", VTE_CURSOR_SHAPE_BLOCK},
+    {"Ibeam", VTE_CURSOR_SHAPE_IBEAM},
+    {"Underline", VTE_CURSOR_SHAPE_UNDERLINE}
+};
+static guint ShapesSz = sizeof(cursor_shapes)/sizeof(cursor_shapes[0]);
+
+const char* termit_cursor_shape_to_string(VteTerminalCursorShape val)
+{
+    return cursor_shapes[val].name;
+}
+
+VteTerminalCursorShape termit_cursor_shape_from_string(const char* str)
+{
+    guint i = 0;
+    for (; i < ShapesSz; ++i) {
+        if (strcmp(str, cursor_shapes[i].name) == 0) {
+            return cursor_shapes[i].val;
+        }
+    }
+    ERROR("unknown cursor shape [%s], using Block", str);
+    return VTE_CURSOR_SHAPE_BLOCK;
+}
+
 void termit_config_trace()
 {
 #ifdef DEBUG
@@ -68,6 +122,8 @@ void termit_config_trace()
     TRACE("     cols x rows             = %d x %d", configs.cols, configs.rows);
     TRACE("     backspace               = %s", termit_erase_binding_to_string(configs.default_bksp));
     TRACE("     delete                  = %s", termit_erase_binding_to_string(configs.default_delete));
+    TRACE("     blink                   = %s", termit_cursor_blink_mode_to_string(configs.default_blink));
+    TRACE("     shape                   = %s", termit_cursor_shape_to_string(configs.default_shape));
     TRACE("     allow_changing_title    = %d", configs.allow_changing_title);
     TRACE("     audible_bell            = %d", configs.audible_bell);
     TRACE("     visible_bell            = %d", configs.visible_bell);
@@ -107,6 +163,8 @@ void termit_configs_set_defaults()
     configs.rows = 24;
     configs.default_bksp = VTE_ERASE_AUTO;
     configs.default_delete = VTE_ERASE_AUTO;
+    configs.default_blink = VTE_CURSOR_BLINK_SYSTEM;
+    configs.default_shape = VTE_CURSOR_SHAPE_BLOCK;
 
     configs.user_menus = g_array_new(FALSE, TRUE, sizeof(struct UserMenu));
     configs.user_popup_menus = g_array_new(FALSE, TRUE, sizeof(struct UserMenu));

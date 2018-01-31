@@ -1,3 +1,5 @@
+	new options:
+		cursorBlinkMode, cursorShape
 	Added topMenu option (by HildigerR Vergaray).
 	Removed any support for Gtk+3. Only Vte<0.29 and Gtk+2 are supported.
 version 2.10.1

@@ -57,6 +57,8 @@ struct TermitTab
     gboolean visible_bell;
     VteTerminalEraseBinding bksp_binding;
     VteTerminalEraseBinding delete_binding;
+    VteTerminalCursorBlinkMode cursor_blink_mode;
+    VteTerminalCursorShape cursor_shape;
     gchar *encoding;
     gchar **argv;
     gchar *title;
@@ -73,6 +75,8 @@ struct TabInfo
     gchar* encoding;
     VteTerminalEraseBinding bksp_binding;
     VteTerminalEraseBinding delete_binding;
+    VteTerminalCursorBlinkMode cursor_blink_mode;
+    VteTerminalCursorShape cursor_shape;
 };
 
 struct TermitTab* termit_get_tab_by_index(guint index);

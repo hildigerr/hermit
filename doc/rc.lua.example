@@ -1,3 +1,6 @@
+-- Example file with lots of options.
+-- You can test with with this command: termit --init rc.lua.example
+
 require("termit.colormaps")
 require("termit.utils")
 
@@ -23,6 +26,8 @@ defaults.geometry = '80x24'
 defaults.allowChangingTitle = false
 --defaults.backspaceBinding = 'AsciiBksp'
 --defaults.deleteBinding = 'AsciiDel'
+defaults.cursorBlinkMode = 'BlinkOff'
+defaults.cursorShape = 'Ibeam'
 defaults.tabPos = 'Right'
 defaults.setStatusbar = function (tabInd)
     tab = tabs[tabInd]
