@@ -37,6 +37,7 @@ const char* termit_erase_binding_to_string(VteTerminalEraseBinding val)
 {
     return erase_bindings[val].name;
 }
+
 VteTerminalEraseBinding termit_erase_binding_from_string(const char* str)
 {
     guint i = 0;
@@ -45,7 +46,7 @@ VteTerminalEraseBinding termit_erase_binding_from_string(const char* str)
             return erase_bindings[i].val;
         }
     }
-    ERROR("not found binding for [%s], using Auto", str);
+    ERROR("unknown erase binding [%s], using Auto", str);
     return VTE_ERASE_AUTO;
 }
 
@@ -107,45 +108,45 @@ void termit_config_trace()
 {
 #ifdef DEBUG
     TRACE_MSG("");
-    TRACE("     default_window_title    = %s", configs.default_window_title);
-    TRACE("     default_tab_name        = %s", configs.default_tab_name);
-    TRACE("     default_encoding        = %s", configs.default_encoding);
-    TRACE("     default_word_chars      = %s", configs.default_word_chars);
-    TRACE("     show_scrollbar          = %d", configs.show_scrollbar);
-    TRACE("     top_menu                = %d", configs.top_menu);
-    TRACE("     hide_menubar            = %d", configs.hide_menubar);
-    TRACE("     hide_tabbar             = %d", configs.hide_tabbar);
-    TRACE("     fill_tabbar             = %d", configs.fill_tabbar);
-    TRACE("     show_border             = %d", configs.show_border);
-    TRACE("     hide_single_tab         = %d", configs.hide_single_tab);
-    TRACE("     scrollback_lines        = %d", configs.scrollback_lines);
-    TRACE("     cols x rows             = %d x %d", configs.cols, configs.rows);
-    TRACE("     backspace               = %s", termit_erase_binding_to_string(configs.default_bksp));
-    TRACE("     delete                  = %s", termit_erase_binding_to_string(configs.default_delete));
-    TRACE("     blink                   = %s", termit_cursor_blink_mode_to_string(configs.default_blink));
-    TRACE("     shape                   = %s", termit_cursor_shape_to_string(configs.default_shape));
-    TRACE("     allow_changing_title    = %d", configs.allow_changing_title);
-    TRACE("     audible_bell            = %d", configs.audible_bell);
-    TRACE("     visible_bell            = %d", configs.visible_bell);
-    TRACE("     get_window_title_callback= %d", configs.get_window_title_callback);
-    TRACE("     get_tab_title_callback  = %d", configs.get_tab_title_callback);
-    TRACE("     get_statusbar_callback  = %d", configs.get_statusbar_callback);
-    TRACE("     kb_policy               = %d", configs.kb_policy);
-    TRACE("     tab_pos                 = %d", configs.tab_pos);
-    TRACE("     style:");
-    TRACE("       font_name             = %s", configs.style.font_name);
+    TRACE("   default_window_title          = %s", configs.default_window_title);
+    TRACE("   default_tab_name              = %s", configs.default_tab_name);
+    TRACE("   default_encoding              = %s", configs.default_encoding);
+    TRACE("   default_word_chars            = %s", configs.default_word_chars);
+    TRACE("   show_scrollbar                = %d", configs.show_scrollbar);
+    TRACE("   top_menu                      = %d", configs.top_menu);
+    TRACE("   hide_menubar                  = %d", configs.hide_menubar);
+    TRACE("   hide_tabbar                   = %d", configs.hide_tabbar);
+    TRACE("   fill_tabbar                   = %d", configs.fill_tabbar);
+    TRACE("   show_border                   = %d", configs.show_border);
+    TRACE("   hide_single_tab               = %d", configs.hide_single_tab);
+    TRACE("   scrollback_lines              = %d", configs.scrollback_lines);
+    TRACE("   cols x rows                   = %d x %d", configs.cols, configs.rows);
+    TRACE("   backspace                     = %s", termit_erase_binding_to_string(configs.default_bksp));
+    TRACE("   delete                        = %s", termit_erase_binding_to_string(configs.default_delete));
+    TRACE("   blink                         = %s", termit_cursor_blink_mode_to_string(configs.default_blink));
+    TRACE("   shape                         = %s", termit_cursor_shape_to_string(configs.default_shape));
+    TRACE("   allow_changing_title          = %d", configs.allow_changing_title);
+    TRACE("   audible_bell                  = %d", configs.audible_bell);
+    TRACE("   visible_bell                  = %d", configs.visible_bell);
+    TRACE("   get_window_title_callback     = %d", configs.get_window_title_callback);
+    TRACE("   get_tab_title_callback        = %d", configs.get_tab_title_callback);
+    TRACE("   get_statusbar_callback        = %d", configs.get_statusbar_callback);
+    TRACE("   kb_policy                     = %d", configs.kb_policy);
+    TRACE("   tab_pos                       = %d", configs.tab_pos);
+    TRACE("   style:");
+    TRACE("     font_name                   = %s", configs.style.font_name);
     if (configs.style.foreground_color) {
         gchar* tmpStr = gdk_color_to_string(configs.style.foreground_color);
-        TRACE("       foreground_color      = %s", tmpStr);
+        TRACE("     foreground_color            = %s", tmpStr);
         g_free(tmpStr);
     }
     if (configs.style.background_color) {
         gchar* tmpStr = gdk_color_to_string(configs.style.background_color);
-        TRACE("       background_color      = %s", tmpStr);
+        TRACE("     background_color            = %s", tmpStr);
         g_free(tmpStr);
     }
-    TRACE("       transparency          = %f", configs.style.transparency);
-    TRACE("       image_file            = %s", configs.style.image_file);
+    TRACE("     transparency                = %f", configs.style.transparency);
+    TRACE("     image_file                  = %s", configs.style.image_file);
     TRACE_MSG("");
 #endif 
 }

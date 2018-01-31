@@ -8,7 +8,7 @@ defaults = {}
 defaults.windowTitle = 'Termit'
 defaults.tabName = 'Terminal'
 defaults.encoding = 'UTF-8'
-defaults.wordChars = '+-AA-Za-z0-9,./?%&#:_~'
+defaults.wordChars = 'AA-Za-z0-9'
 defaults.font = 'Terminus 12'
 --defaults.foregroundColor = 'gray'
 --defaults.backgroundColor = 'black'
@@ -38,8 +38,8 @@ defaults.setStatusbar = function (tabInd)
 end
 defaults.colormap = termit.colormaps.delicate
 defaults.matches = {['http[^ ]+'] = function (url) print('Matching url: '..url) end}
---defaults.tabs = {{title = 'Test new tab 1'; workingDir = '/tmp'};
-    --{title = 'Test new tab 2'; workingDir = '/tmp'}}
+defaults.tabs = {{title = 'Test new tab 1'; workingDir = '/tmp'};
+    {title = 'Test new tab 2'; workingDir = '/tmp'}}
 setOptions(defaults)
 
 bindKey('Ctrl-Page_Up', prevTab)
