@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+DOCDIR=debian/termit/usr/share/doc/termit
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	dh_auto_install
+	rm ${DOCDIR}/COPYING

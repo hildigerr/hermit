@@ -1,0 +1,85 @@
+termit (2.10.1-2) trusty; urgency=low
+
+  * Reconfigure action now works with topMenu option. 
+
+ -- HildigerR Vergaray <moonsdad@gmail.com>  Sun, 18 Oct 2015 20:06:11 -0700
+
+termit (2.10.1-1) trusty; urgency=low
+
+  * Removed any support for Gtk+3. Only Vte<0.29 and Gtk+2 are supported.
+  * Fixed error with conflicting libvte/Gtk versions
+  * Fixed ebuild (by Ilya Mochalov).
+  * Suppress "invalid option" for -e.
+  * Fixed missing link to math library (by Thomas Koch)
+  * Miminum required version for Gtk-2 changed to 2.24.
+  * Miminum required version for libvte changed to 0.28.
+  * Rebuild po-files due to source changes.
+
+ -- HildigerR Vergaray <moonsdad@gmail.com>  Thu, 15 Oct 2015 21:28:40 -0700
+
+termit (2.10.0-3.0.0) trusty; urgency=low
+
+  * Added ability to configure menu to be placed at the top via rc option.
+
+ -- HildigerR Vergaray <moonsdad@gmail.com>  Mon, 12 Oct 2015 02:17:36 -0700
+
+termit (2.10.0-2-gb8280ed-1) unstable; urgency=low
+
+  [ Sascha Steinbiss ]
+  * make notebook borders configurable
+
+  [ Thomas Koch ]
+  * clean utils/termit-*.ebuild independent of version
+  * update standards-version to 3.9.5, no changes
+
+  [ Evgeny Ratnikov ]
+  * prevent building termit with incompatible Gtk and Vte versions
+  * one setTabPos to replace moveLeft, moveRight
+  * added support for --title option
+  * changed -e option now it works similar to xterm all argument after -e option
+    are passed to execvp so if you want to use it, be careful most of time it
+    should be at the end of argument list
+  * fixed compilation on OpenBSD
+
+ -- Thomas Koch <thomas@koch.ro>  Sun, 13 Apr 2014 18:40:08 +0200
+
+termit (2.9.6-1) experimental; urgency=low
+
+  [ Thomas Koch ]
+  * update standards-version to 3.9.4
+  * better watch file.
+    Thanks to Bart Martens <bartm@debian.org>
+  * Fix VCS-Browser tag in debian/control (Closes: #693119)
+  * rm obsolete patch: fix/build_with_lua52
+  * correct debhelper version to align with compat to 9
+
+ -- Thomas Koch <thomas@koch.ro>  Fri, 05 Apr 2013 20:12:23 +0200
+
+termit (2.9.4-2) unstable; urgency=low
+
+  * Resolved section disparity between package and override by
+    changing section from misc to x11 in control file.
+
+ -- Tomas Fasth <tomfa@debian.org>  Mon, 18 Jun 2012 02:04:50 +0200
+
+termit (2.9.4-1) unstable; urgency=low
+
+  * add watchfile
+  * fix copyright lintian warning
+  * switch from cdbs to debhelper
+  * Do not install upstream's INSTALL
+  * New upstream version 2.9.4 (Closes: #635514)
+  * update policy version to 3.9.3
+  * Set myself as maintainer
+  * Machine readable copyright
+  * correct VCS-* fields (Closes: #661466)
+  * provide termit as alternative for x-terminal-emulator.
+    Thanks to Nobuhiro Iwamatsu <iwamatsu@debian.org> (Closes: #617198)
+
+ -- Thomas Koch <thomas@koch.ro>  Thu, 14 Jun 2012 20:08:18 +0200
+
+termit (2.6.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #576409)
+
+ -- Tomas Fasth <tomfa@debian.org>  Tue, 11 Jan 2011 16:39:12 +0100

@@ -1,0 +1,4 @@
+config.h
+utils/termit-*.ebuild
+utils/termit.SlackBuild
+utils/termit.spec
