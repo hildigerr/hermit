@@ -271,12 +271,12 @@ void hermit_lua_options_loader(const gchar* name, lua_State* ls, int index, void
         hermit_config_getuint(&(p_cfg->scrollback_lines), ls, index);
     else if (!strcmp(name, "allowChangingTitle"))
         hermit_config_get_boolean(&(p_cfg->allow_changing_title), ls, index);
-    else if (!strcmp(name, "audibleBell"))
-        hermit_config_get_boolean(&(p_cfg->audible_bell), ls, index);
-    else if (!strcmp(name, "visibleBell"))
-        hermit_config_get_boolean(&(p_cfg->visible_bell), ls, index);
-    else if (!strcmp(name, "urgencyOnBell"))
-        hermit_config_get_boolean(&(p_cfg->urgency_on_bell), ls, index);
+    else if (!strcmp(name, "audibleBeep"))
+        hermit_config_get_boolean(&(p_cfg->audible_beep), ls, index);
+    else if (!strcmp(name, "visibleBeep"))
+        hermit_config_get_boolean(&(p_cfg->visible_beep), ls, index);
+    else if (!strcmp(name, "urgencyOnBeep"))
+        hermit_config_get_boolean(&(p_cfg->urgency_on_beep), ls, index);
     else if (!strcmp(name, "getWindowTitle"))
         hermit_config_get_function(&(p_cfg->get_window_title_callback), ls, index);
     else if (!strcmp(name, "tabPos"))

@@ -230,7 +230,7 @@ void hermit_on_beep(VteTerminal *vte, gpointer user_data)
         return;
     }
     if (!gtk_window_has_toplevel_focus(GTK_WINDOW(hermit.main_window))) {
-        if (configs.urgency_on_bell) {
+        if (configs.urgency_on_beep) {
             gtk_window_set_urgency_hint(GTK_WINDOW(hermit.main_window), TRUE);
             gchar* marked_title = g_strdup_printf("<b>%s</b>", gtk_label_get_text(GTK_LABEL(pTab->tab_name)));
             gtk_label_set_markup(GTK_LABEL(pTab->tab_name), marked_title);

@@ -1,3 +1,5 @@
+	Semantic change to match signal: bell-->beep.
+	Use NASA's first photo of Mercury as background image.
 version 3.0.0
 	Renamed hermit, now a true fork of termit.
 	added 'apply to all tabs' in preferences dialog

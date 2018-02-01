@@ -74,7 +74,7 @@ static gboolean dlg_set_transparency(GtkSpinButton *btn, gpointer user_data)
     hermit_tab_set_transparency(pTab, value);
     return FALSE;
 }
-static gboolean dlg_set_audible_bell(GtkToggleButton *btn, gpointer user_data)
+static gboolean dlg_set_audible_beep(GtkToggleButton *btn, gpointer user_data)
 {
     if (!user_data) {
         ERROR("user_data is NULL");
@@ -82,10 +82,10 @@ static gboolean dlg_set_audible_bell(GtkToggleButton *btn, gpointer user_data)
     }
     struct HermitTab* pTab = (struct HermitTab*)user_data;
     gboolean value = gtk_toggle_button_get_active(btn);
-    hermit_tab_set_audible_bell(pTab, value);
+    hermit_tab_set_audible_beep(pTab, value);
     return FALSE;
 }
-static gboolean dlg_set_visible_bell(GtkToggleButton *btn, gpointer user_data)
+static gboolean dlg_set_visible_beep(GtkToggleButton *btn, gpointer user_data)
 {
     if (!user_data) {
         ERROR("user_data is NULL");
@@ -93,7 +93,7 @@ static gboolean dlg_set_visible_bell(GtkToggleButton *btn, gpointer user_data)
     }
     struct HermitTab* pTab = (struct HermitTab*)user_data;
     gboolean value = gtk_toggle_button_get_active(btn);
-    hermit_tab_set_visible_bell(pTab, value);
+    hermit_tab_set_visible_beep(pTab, value);
     return FALSE;
 }
 static gboolean dlg_set_apply_to_all_tabs(GtkToggleButton *btn, gpointer user_data)
@@ -113,8 +113,8 @@ struct HermitDlgHelper
     gchar* tab_title;
     gboolean handmade_tab_title;
     struct HermitStyle style;
-    gboolean au_bell;
-    gboolean vi_bell;
+    gboolean au_beep;
+    gboolean vi_beep;
     // widgets with values
     GtkWidget* dialog;
     GtkWidget* entry_title;
@@ -123,8 +123,8 @@ struct HermitDlgHelper
     GtkWidget* btn_background;
     GtkWidget* btn_image_file;
     GtkWidget* scale_transparency;
-    GtkWidget* audible_bell;
-    GtkWidget* visible_bell;
+    GtkWidget* audible_beep;
+    GtkWidget* visible_beep;
     GtkWidget* btn_apply_to_all_tabs;
 };
 
@@ -139,8 +139,8 @@ static struct HermitDlgHelper* hermit_dlg_helper_new(struct HermitTab* pTab)
         hlp->tab_title = g_strdup(gtk_label_get_text(GTK_LABEL(pTab->tab_name)));
     }
     hermit_style_copy(&hlp->style, &pTab->style);
-    hlp->au_bell = pTab->audible_bell;
-    hlp->vi_bell = pTab->visible_bell;
+    hlp->au_beep = pTab->audible_beep;
+    hlp->vi_beep = pTab->visible_beep;
     return hlp;
 }
 
@@ -161,8 +161,8 @@ static void dlg_set_tab_default_values(struct HermitTab* pTab, struct HermitDlgH
     hermit_tab_set_color_foreground(pTab, hlp->style.foreground_color);
     hermit_tab_set_color_background(pTab, hlp->style.background_color);
     hermit_tab_set_transparency(pTab, hlp->style.transparency);
-    hermit_tab_set_audible_bell(pTab, hlp->au_bell);
-    hermit_tab_set_visible_bell(pTab, hlp->vi_bell);
+    hermit_tab_set_audible_beep(pTab, hlp->au_beep);
+    hermit_tab_set_visible_beep(pTab, hlp->vi_beep);
     if (hlp->style.image_file) {
         gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(hlp->btn_image_file), hlp->style.image_file);
     }
@@ -179,8 +179,8 @@ static void dlg_set_default_values(struct HermitDlgHelper* hlp)
         gtk_color_button_set_color(GTK_COLOR_BUTTON(hlp->btn_background), hlp->style.background_color);
     }
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(hlp->scale_transparency), hlp->style.transparency);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hlp->audible_bell), hlp->au_bell);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hlp->visible_bell), hlp->vi_bell);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hlp->audible_beep), hlp->au_beep);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hlp->visible_beep), hlp->vi_beep);
     if (hlp->style.image_file) {
         gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(hlp->btn_image_file), hlp->style.image_file);
     } else {
@@ -293,17 +293,17 @@ void hermit_preferences_dialog(struct HermitTab *pTab)
     g_signal_connect(scale_transparency, "value-changed", G_CALLBACK(dlg_set_transparency), pTab);
     HERMIT_PREFERENCE_ROW(_("Transparency"), scale_transparency);
 
-    // audible_bell
-    GtkWidget* audible_bell = gtk_check_button_new();
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(audible_bell), pTab->audible_bell);
-    g_signal_connect(audible_bell, "toggled", G_CALLBACK(dlg_set_audible_bell), pTab);
-    HERMIT_PREFERENCE_ROW(_("Audible bell"), audible_bell);
+    // audible_beep
+    GtkWidget* audible_beep = gtk_check_button_new();
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(audible_beep), pTab->audible_beep);
+    g_signal_connect(audible_beep, "toggled", G_CALLBACK(dlg_set_audible_beep), pTab);
+    HERMIT_PREFERENCE_ROW(_("Audible beep"), audible_beep);
 
-    // visible_bell
-    GtkWidget* visible_bell = gtk_check_button_new();
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(visible_bell), pTab->visible_bell);
-    g_signal_connect(visible_bell, "toggled", G_CALLBACK(dlg_set_visible_bell), pTab);
-    HERMIT_PREFERENCE_ROW(_("Visible bell"), visible_bell);
+    // visible_beep
+    GtkWidget* visible_beep = gtk_check_button_new();
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(visible_beep), pTab->visible_beep);
+    g_signal_connect(visible_beep, "toggled", G_CALLBACK(dlg_set_visible_beep), pTab);
+    HERMIT_PREFERENCE_ROW(_("Visible beep"), visible_beep);
 
     // apply to al tabs
     GtkWidget* btn_apply_to_all_tabs = gtk_check_button_new();
@@ -331,8 +331,8 @@ void hermit_preferences_dialog(struct HermitTab *pTab)
                 dlg_set_background(GTK_COLOR_BUTTON(btn_background), pTab);
                 dlg_set_transparency(GTK_SPIN_BUTTON(scale_transparency), pTab);
                 dlg_set_image_file(GTK_FILE_CHOOSER_BUTTON(btn_image_file), pTab);
-                dlg_set_audible_bell(GTK_TOGGLE_BUTTON(audible_bell), pTab);
-                dlg_set_visible_bell(GTK_TOGGLE_BUTTON(visible_bell), pTab);
+                dlg_set_audible_beep(GTK_TOGGLE_BUTTON(audible_beep), pTab);
+                dlg_set_visible_beep(GTK_TOGGLE_BUTTON(visible_beep), pTab);
             }
         }
         // insane title flag

@@ -1,4 +1,17 @@
-hermit (3.0.0) WIP; urgency=medium
+hermit (3.0.2-0) xenial; urgency=medium
+
+  * Semantic change to match signal: bell-->beep.
+  * Don't replace termit.
+
+ -- HildigerR Vergaray <moonsdad@gmail.com>  Thu, 01 Feb 2018 08:39:50 -0800
+
+hermit (3.0.1-1) xenial; urgency=medium
+
+  * Use NASA's first photo of Mercury as background image.
+
+ -- HildigerR Vergaray <moonsdad@gmail.com>  Wed, 31 Jan 2018 23:16:47 -0800
+
+hermit (3.0.0-1) xenial; urgency=medium
 
   * Renamed hermit. Now a true fork of termit.
   * Included upstream options: cursorBlinkMode, cursorShape.

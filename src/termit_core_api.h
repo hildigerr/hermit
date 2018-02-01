@@ -57,8 +57,8 @@ void hermit_tab_set_color_foreground_by_index(gint tab_index, const GdkColor*);
 void hermit_tab_set_color_background_by_index(gint tab_index, const GdkColor*);
 void hermit_tab_set_background_image(struct HermitTab* pTab, const gchar* image_file);
 void hermit_tab_set_title(struct HermitTab* pTab, const gchar* title);
-void hermit_tab_set_audible_bell(struct HermitTab* pTab, gboolean audible_bell);
-void hermit_tab_set_visible_bell(struct HermitTab* pTab, gboolean visible_bell);
+void hermit_tab_set_audible_beep(struct HermitTab* pTab, gboolean audible_beep);
+void hermit_tab_set_visible_beep(struct HermitTab* pTab, gboolean visible_beep);
 void hermit_tab_set_pos(struct HermitTab* pTab, int newPos);
 
 int hermit_get_current_tab_index();

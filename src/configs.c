@@ -127,8 +127,8 @@ void hermit_config_trace()
     TRACE("   blink                         = %s", hermit_cursor_blink_mode_to_string(configs.default_blink));
     TRACE("   shape                         = %s", hermit_cursor_shape_to_string(configs.default_shape));
     TRACE("   allow_changing_title          = %d", configs.allow_changing_title);
-    TRACE("   audible_bell                  = %d", configs.audible_bell);
-    TRACE("   visible_bell                  = %d", configs.visible_bell);
+    TRACE("   audible_beep                  = %d", configs.audible_beep);
+    TRACE("   visible_beep                  = %d", configs.visible_beep);
     TRACE("   get_window_title_callback     = %d", configs.get_window_title_callback);
     TRACE("   get_tab_title_callback        = %d", configs.get_tab_title_callback);
     TRACE("   get_statusbar_callback        = %d", configs.get_statusbar_callback);
@@ -174,17 +174,17 @@ void hermit_configs_set_defaults()
     configs.mouse_bindings = g_array_new(FALSE, TRUE, sizeof(struct MouseBinding));
     configs.matches = g_array_new(FALSE, TRUE, sizeof(struct Match));
 
-    configs.hide_single_tab = FALSE;
+    configs.hide_single_tab = TRUE;
     configs.show_scrollbar = TRUE;
     configs.fill_tabbar = FALSE;
-    configs.top_menu = FALSE;
+    configs.top_menu = TRUE;
     configs.hide_menubar = FALSE;
     configs.hide_tabbar = FALSE;
     configs.show_border = TRUE;
     configs.allow_changing_title = FALSE;
-    configs.visible_bell = FALSE;
-    configs.audible_bell = FALSE;
-    configs.urgency_on_bell = FALSE;
+    configs.visible_beep = FALSE;
+    configs.audible_beep = FALSE;
+    configs.urgency_on_beep = FALSE;
     configs.get_window_title_callback = 0;
     configs.get_tab_title_callback = 0;
     configs.get_statusbar_callback = 0;

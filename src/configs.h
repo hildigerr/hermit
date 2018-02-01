@@ -48,10 +48,10 @@ struct Configs
     gboolean hide_tabbar;
     gboolean fill_tabbar;
     gboolean show_border;
-    gboolean urgency_on_bell;
+    gboolean urgency_on_beep;
     gboolean allow_changing_title;
-    gboolean audible_bell;
-    gboolean visible_bell;
+    gboolean audible_beep;
+    gboolean visible_beep;
     int get_window_title_callback;
     int get_tab_title_callback;
     int get_statusbar_callback;

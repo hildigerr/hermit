@@ -54,8 +54,8 @@ struct HermitTab
     GtkWidget *scrollbar;
     gboolean scrollbar_is_shown;
     gboolean custom_tab_name;
-    gboolean audible_bell;
-    gboolean visible_bell;
+    gboolean audible_beep;
+    gboolean visible_beep;
     VteTerminalEraseBinding bksp_binding;
     VteTerminalEraseBinding delete_binding;
     VteTerminalCursorBlinkMode cursor_blink_mode;

@@ -311,16 +311,16 @@ void hermit_for_each_visible_row(int lua_callback)
     hermit_for_each_row_execute(pTab, row_start, row_start + page_size, lua_callback);
 }
 
-void hermit_tab_set_audible_bell(struct HermitTab* pTab, gboolean audible_bell)
+void hermit_tab_set_audible_beep(struct HermitTab* pTab, gboolean audible_beep)
 {
-    pTab->audible_bell = audible_bell;
-    vte_terminal_set_audible_bell(VTE_TERMINAL(pTab->vte), audible_bell);
+    pTab->audible_beep = audible_beep;
+    vte_terminal_set_audible_beep(VTE_TERMINAL(pTab->vte), audible_beep);
 }
 
-void hermit_tab_set_visible_bell(struct HermitTab* pTab, gboolean visible_bell)
+void hermit_tab_set_visible_beep(struct HermitTab* pTab, gboolean visible_beep)
 {
-    pTab->visible_bell = visible_bell;
-    vte_terminal_set_visible_bell(VTE_TERMINAL(pTab->vte), visible_bell);
+    pTab->visible_beep = visible_beep;
+    vte_terminal_set_visible_beep(VTE_TERMINAL(pTab->vte), visible_beep);
 }
 
 void hermit_tab_set_pos(struct HermitTab* pTab, int newPos)
@@ -427,7 +427,7 @@ void hermit_append_tab_with_details(const struct TabInfo* ti)
             pTab->argv[0], pTab->argv + 1, NULL, ti->working_dir, TRUE, TRUE, TRUE);
 #endif // version >= 0.26
 
-    g_signal_connect(G_OBJECT(pTab->vte), "bell", G_CALLBACK(hermit_on_beep), pTab);
+    g_signal_connect(G_OBJECT(pTab->vte), "beep", G_CALLBACK(hermit_on_beep), pTab);
     g_signal_connect(G_OBJECT(pTab->vte), "focus-in-event", G_CALLBACK(hermit_on_focus), pTab);
     g_signal_connect(G_OBJECT(pTab->vte), "window-title-changed", G_CALLBACK(hermit_on_tab_title_changed), NULL);
 
@@ -455,8 +455,8 @@ void hermit_append_tab_with_details(const struct TabInfo* ti)
         gtk_container_child_set_property(GTK_CONTAINER(hermit.notebook), pTab->hbox, "tab-fill", &val);
     }
 
-    hermit_tab_set_audible_bell(pTab, configs.audible_bell);
-    hermit_tab_set_visible_bell(pTab, configs.visible_bell);
+    hermit_tab_set_audible_beep(pTab, configs.audible_beep);
+    hermit_tab_set_visible_beep(pTab, configs.visible_beep);
 
     pTab->scrollbar = gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(pTab->vte)));
 

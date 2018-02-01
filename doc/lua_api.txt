@@ -204,7 +204,7 @@ pre. Example: enable Gnome-like tab switching
 *HermitOptions* - table with hermit options.
 
 * allowChangingTitle - auto change title (similar to xterm)
-* audibleBell - enables audible bell
+* audibleBeep - enables audible beep
 * backgroundColor - background color
 * backspaceBinding - reaction on backspace key (one of HermitEraseBinding)
 * colormap - array with 8 or 16 or 24 colors
@@ -232,8 +232,8 @@ pre. Example: enable Gnome-like tab switching
 * tabPos - tabbar position (Top, Bottom, Left, Right)
 * tabs - table with items of HermitTabInfo type
 * transparency - use transparency level [0,1]
-* visibleBell - enables visible bell
-* urgencyOnBell - set WM-hint 'urgent' on hermit window when bell
+* visibleBeep - enables visible beep
+* urgencyOnBeep - set WM-hint 'urgent' on hermit window when beep
 * wordChars - word characters (double click selects word)
 
 
