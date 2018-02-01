@@ -1,11 +1,11 @@
 -- Example file with lots of options.
--- You can test with with this command: termit --init rc.lua.example
+-- You can test with with this command: hermit --init rc.lua.example
 
-require("termit.colormaps")
-require("termit.utils")
+require("hermit.colormaps")
+require("hermit.utils")
 
 defaults = {}
-defaults.windowTitle = 'Termit'
+defaults.windowTitle = 'Hermit'
 defaults.tabName = 'Terminal'
 defaults.encoding = 'UTF-8'
 defaults.wordChars = 'AA-Za-z0-9'
@@ -36,7 +36,7 @@ defaults.setStatusbar = function (tabInd)
     end
     return ''
 end
-defaults.colormap = termit.colormaps.delicate
+defaults.colormap = hermit.colormaps.delicate
 defaults.matches = {['http[^ ]+'] = function (url) print('Matching url: '..url) end}
 defaults.tabs = {{title = 'Test new tab 1'; workingDir = '/tmp'};
     {title = 'Test new tab 2'; workingDir = '/tmp'}}
@@ -81,10 +81,10 @@ table.insert(userMenu, {name='Reconfigure', action=reconfigure, accel='Ctrl-r'})
 table.insert(userMenu, {name='Selection', action=function () print(selection()) end})
 table.insert(userMenu, {name='dumpAllRows', action=function () forEachRow(print) end})
 table.insert(userMenu, {name='dumpVisibleRowsToFile',
-    action=function () termit.utils.dumpToFile(forEachVisibleRow, '/tmp/termit.dump') end})
+    action=function () hermit.utils.dumpToFile(forEachVisibleRow, '/tmp/hermit.dump') end})
 table.insert(userMenu, {name='findNext', action=findNext, accel='Alt-n'})
 table.insert(userMenu, {name='findPrev', action=findPrev, accel='Alt-p'})
-table.insert(userMenu, {name='new colormap', action=function () setColormap(termit.colormaps.mikado) end})
+table.insert(userMenu, {name='new colormap', action=function () setColormap(hermit.colormaps.mikado) end})
 table.insert(userMenu, {name='toggle menubar', action=function () toggleMenubar() end})
 table.insert(userMenu, {name='toggle tabbar', action=function () toggleTabbar()  end})
 
@@ -93,7 +93,7 @@ mi.name = 'Get tab info'
 mi.action = function ()
     tab = tabs[currentTabIndex()]
     if tab then
-        termit.utils.printTable(tab, '  ')
+        hermit.utils.printTable(tab, '  ')
     end
 end
 table.insert(userMenu, mi)
@@ -114,6 +114,6 @@ table.insert(userMenu, {name='User quit', action=quit})
 addMenu(userMenu, "User menu")
 addPopupMenu(userMenu, "User menu")
 
-addMenu(termit.utils.encMenu(), "Encodings")
-addPopupMenu(termit.utils.encMenu(), "Encodings")
+addMenu(hermit.utils.encMenu(), "Encodings")
+addPopupMenu(hermit.utils.encMenu(), "Encodings")
 

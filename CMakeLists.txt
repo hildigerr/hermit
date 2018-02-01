@@ -1,17 +1,18 @@
 # Copyright (C) 2007-2010, Evgeny Ratnikov
+# Copyright (C) 2018, Roberto Vergaray
 #
-# This file is part of termit.
-# termit is free software: you can redistribute it and/or modify
+# This file is part of hermit, forked from termit.
+# hermit is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License version 2 
 # as published by the Free Software Foundation.
-# termit is distributed in the hope that it will be useful,
+# hermit is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
-# along with termit. If not, see <http://www.gnu.org/licenses/>.
+# along with hermit. If not, see <http://www.gnu.org/licenses/>.
 
-PROJECT(TERMIT C)
+PROJECT(HERMIT C)
 
 cmake_minimum_required(VERSION 2.6.1 FATAL_ERROR)
 SET(CMAKE_VERSION "${CMAKE_CACHE_MAJOR_VERSION}.${CMAKE_CACHE_MINOR_VERSION}.${CMAKE_CACHE_RELEASE_VERSION}")
@@ -35,15 +36,15 @@ SET(DEBUG FALSE CACHE BOOL "debug info")
 SET(ENABLE_NLS TRUE CACHE BOOL "enable translation")
 SET(XDG_DIR ${XDG_DIR} CACHE STRING "default xdg dir")
 
-SET(TERMIT_PACKAGE "termit")
-SET(TERMIT_PACKAGE_VERSION "3.0.0-alpha")
-SET(TERMIT_LOCALE_DIR "${CMAKE_INSTALL_PREFIX}/share/locale")
-SET(TERMIT_XDG_DIR "${XDG_DIR}/termit")
-SET(TERMIT_PACKAGE_NAME "termit - terminal emulator")
-SET(TERMIT_PACKAGE_STRING "${TERMIT_PACKAGE} ${TERMIT_PACKAGE_VERSION}")
-SET(TERMIT_PACKAGE_BUGREPORT "ratnikov.ev@gmail.com")
+SET(HERMIT_PACKAGE "hermit")
+SET(HERMIT_PACKAGE_VERSION "3.0.0")
+SET(HERMIT_LOCALE_DIR "${CMAKE_INSTALL_PREFIX}/share/locale")
+SET(HERMIT_XDG_DIR "${XDG_DIR}/hermit")
+SET(HERMIT_PACKAGE_NAME "hermit - terminal emulator")
+SET(HERMIT_PACKAGE_STRING "${HERMIT_PACKAGE} ${HERMIT_PACKAGE_VERSION}")
+SET(HERMIT_PACKAGE_BUGREPORT "moonsdad@gmail.com")
 
-CONFIGURE_FILE(${TERMIT_SOURCE_DIR}/config.h.in ${TERMIT_SOURCE_DIR}/config.h)
+CONFIGURE_FILE(${HERMIT_SOURCE_DIR}/config.h.in ${HERMIT_SOURCE_DIR}/config.h)
 
 CONFIGURE_FILE(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
@@ -60,12 +61,12 @@ ENDIF(ENABLE_NLS)
 ADD_SUBDIRECTORY(utils)
 ADD_SUBDIRECTORY(etc)
 
-MESSAGE("\n  termit ${TERMIT_PACKAGE_VERSION}\n")
+MESSAGE("\n  hermit ${HERMIT_PACKAGE_VERSION}\n")
 MESSAGE("Prefix dir:.......... ${CMAKE_INSTALL_PREFIX}")
 IF(ENABLE_NLS)
-  MESSAGE("Locales dir:......... ${TERMIT_LOCALE_DIR}")
+  MESSAGE("Locales dir:......... ${HERMIT_LOCALE_DIR}")
 ENDIF(ENABLE_NLS)
-MESSAGE("Xdg dir:............. ${TERMIT_XDG_DIR}")
+MESSAGE("Xdg dir:............. ${HERMIT_XDG_DIR}")
 message("Gtk:................. ${GTK_VERSION}")
 message("Vte:................. ${VTE_VERSION}")
 message("Lua:................. ${LUA_VERSION}")

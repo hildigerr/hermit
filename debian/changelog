@@ -1,3 +1,11 @@
+hermit (3.0.0) WIP; urgency=medium
+
+  * Renamed hermit. Now a true fork of termit.
+  * Included upstream options: cursorBlinkMode, cursorShape.
+  * added 'apply to all tabs' in preferences dialog from upstream.
+
+ -- HildigerR Vergaray <moonsdad@gmail.com>  Wed, 31 Jan 2018 19:32:13 -0800
+
 termit (2.10.1-2) trusty; urgency=low
 
   * Reconfigure action now works with topMenu option. 

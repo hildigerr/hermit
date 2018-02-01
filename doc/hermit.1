@@ -1,13 +1,13 @@
 .\" Process this file with
 .\" groff -man -Tascii foo.1
 .\"
-.TH TERMIT 1 "NOV 2008" Linux "User Manuals"
+.TH HERMIT 1 "JAN 2018" Linux "User Manuals"
 .SH NAME
-termit \(hy lightweight terminal emulator
+hermit \(hy lightweight terminal emulator
 .SH SYNOPSIS
-.B termit [\-option ...]
+.B hermit [\-option ...]
 .SH DESCRIPTION
-.B termit
+.B hermit
 is a vte\(hybased lightweight terminal emulator. All configuration
 is done via Lua\(hyscripts. The only other dependencies are 
 Gtk+ and Vte.
@@ -79,20 +79,20 @@ in window title (Turns off
 option.)
 .RE
 .P
-termit \-\-init=session.lua \-\-name=TermitName \-\-class=TermitClass \-\-role=TermitRole \-\-title=TermitTitle \-\-execute=zsh
+hermit \-\-init=session.lua \-\-name=HermitName \-\-class=HermitClass \-\-role=HermitRole \-\-title=HermitTitle \-\-execute=zsh
 .P
 .RE
 .SH FILES
-.I $HOME/.config/termit/rc.lua
+.I $HOME/.config/hermit/rc.lua
 .RS
 Per user configuration file. See section
-.BR "TERMIT LUA API"
+.BR "HERMIT LUA API"
 for further details.
 .RE
-.I /usr/share/doc/termit/rc.lua.example
+.I /usr/share/doc/hermit/rc.lua.example
 .RS
 Example rc.lua file. Demonstrates usage of almost all available settings.
-.SH "TERMIT LUA API"
+.SH "HERMIT LUA API"
 .B "Functions:"
 
 .B activateTab
@@ -107,14 +107,14 @@ Example rc.lua file. Demonstrates usage of almost all available settings.
 .I menu
 )
     Adds menu in menubar.
-    menu \(hy table of TermitMenuItem type.
+    menu \(hy table of HermitMenuItem type.
 .P
 .B addPopupMenu
 (
 .I menu
 )
     Adds menu in popup menu, similar to addMenu.
-    menu \(hy table of TermitMenuItem type.
+    menu \(hy table of HermitMenuItem type.
 .P
 .B bindKey
 (
@@ -150,7 +150,7 @@ removes mouse\(hybinding.
 .P
 .B currentTab
 ()
-    Returns current tab of TermitTabInfo.
+    Returns current tab of HermitTabInfo.
 .P
 .B currentTabIndex
 ()
@@ -209,7 +209,7 @@ data
 .I tabInfo
 )
     Opens new tab.
-    tabinfo \(hy table of TermitTabInfo with tab settings.
+    tabinfo \(hy table of HermitTabInfo with tab settings.
 .P
 .B paste
 ()
@@ -267,7 +267,7 @@ data
 .I opts
 )
     Changes default options.
-    opts \(hy TermitOptions table with new options.
+    opts \(hy HermitOptions table with new options.
 .P
 .B setTabBackgroundColor
 (
@@ -312,7 +312,7 @@ data
 (
 .I title
 )
-    Changes termit window title.
+    Changes hermit window title.
     title \(hy string with new title.
 .P
 .B spawn
@@ -334,19 +334,19 @@ data
 
 .B "Types:"
 
-.B TermitCursorBlinkMode
+.B HermitCursorBlinkMode
 \(hy one of those string values:
     System              Follow GTK+ settings for cursor blinking
     BlinkOn             Cursor blinks
     BlinkOff            Cursor does not blink
 .P
-.B TermitCursorShape
+.B HermitCursorShape
 \(hy one of those string values:
     Block               Draw a block cursor
     Ibeam               Draw a vertical bar on the left side of character
     Underline           Draw a horizontal bar below the character
 .P
-.B TermitEraseBinding
+.B HermitEraseBinding
 \(hy one of those string values:
     Auto                VTE_ERASE_AUTO
     AsciiBksp           VTE_ERASE_ASCII_BACKSPACE
@@ -356,7 +356,7 @@ data
 .P
 For detailed description look into Vte docs.
 .P
-.B TermitKeybindings
+.B HermitKeybindings
 \(hy table with predefined keybindings.
     closeTab            'Ctrl\(hyw'
     copy                'Ctrl\(hyInsert'
@@ -365,27 +365,27 @@ For detailed description look into Vte docs.
     paste               'Shift\(hyInsert'
     prevTab             'Alt\(hyLeft'
 .P
-.B TermitMatch
+.B HermitMatch
 \(hy table for matches.
     field name          match regular expression
     field value         lua callback for action on Left\(hyclick.
 .P
-.B TermitMenuItem
+.B HermitMenuItem
 \(hy table for menuitems.
     accel               accelerator for menuitem. String with keybinding
     action              lua function to execute when item activated
     name                name for menuitem
 .P
-.B TermitOptions
-\(hy table with termit options.
+.B HermitOptions
+\(hy table with hermit options.
     allowChangingTitle  auto change title (similar to xterm)
     audibleBell         enables audible bell
     backgroundColor     background color
-    backspaceBinding    reaction on backspace key (one of TermitEraseBinding)
+    backspaceBinding    reaction on backspace key (one of HermitEraseBinding)
     colormap            array with 8 or 16 or 24 colors
-    cursorBlinkMode     cursor blink mode (one of TermitCursorBlinkMode)
-    cursorShape         cursor shape (one of TermitCursorShape)
-    deleteBinding       reaction on delete key (one of TermitEraseBinding)
+    cursorBlinkMode     cursor blink mode (one of HermitCursorBlinkMode)
+    cursorShape         cursor shape (one of HermitCursorShape)
+    deleteBinding       reaction on delete key (one of HermitEraseBinding)
     encoding            default encoding
     fillTabbar          expand tabs' titles to fill whole tabbar
     font                font name
@@ -398,20 +398,20 @@ For detailed description look into Vte docs.
     hideTabbar          hide tabbar
     hideSingleTab       hide tabbar when only 1 tab present
     imageFile           path to image to be set on the background
-    matches             table with items of TermitMatch type
+    matches             table with items of HermitMatch type
     scrollbackLines     the length of scrollback buffer
     setStatusbar        lua function to generate new statusbar message
     showScrollbar       display scrollbar
     showBorder          show notebook borders
     tabName             default tab name
     tabPos              tabbar position (Top, Bottom, Left, Right)
-    tabs                table with items of TermitTabInfo type
+    tabs                table with items of HermitTabInfo type
     transparency        use transparency level [0,1]
     visibleBell         enables visible bell
-    urgencyOnBell       set WM\(hyhint 'urgent' on termit window when bell
+    urgencyOnBell       set WM\(hyhint 'urgent' on hermit window when bell
     wordChars           word characters (double click selects word)
 .P
-.B TermitTabInfo
+.B HermitTabInfo
 \(hy table with tab settings:
     command             tab start command
     encoding            current tab encoding
@@ -429,7 +429,7 @@ is the array with settings for all tabs. Access specific tab by index.
 .SH EXAMPLES
 Look inside provided rc.lua.example.
 .SH BUGS
-After start sometimes there is black screen. Resizing termit window helps.
+After start sometimes there is black screen. Resizing hermit window helps.
 .P
 In options table 'tabs' field should be the last one. When loading all settings are applied in the same order as they are set in options table. So if you set tabs and only then colormap, these tabs would have default colormap.
 .SH AUTHOR

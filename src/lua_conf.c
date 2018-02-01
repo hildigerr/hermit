@@ -1,15 +1,16 @@
 /*  Copyright (C) 2007-2010, Evgeny Ratnikov
+    Copyright (C) 2018, Roberto Vergaray
 
-    This file is part of termit.
-    termit is free software: you can redistribute it and/or modify
+    This file is part of hermit, forked from termit.
+    hermit is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 
     as published by the Free Software Foundation.
-    termit is distributed in the hope that it will be useful,
+    hermit is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with termit. If not, see <http://www.gnu.org/licenses/>.*/
+    along with hermit. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <string.h>
 #include <X11/Xlib.h> // XParseGeometry
@@ -25,12 +26,12 @@
 #include "keybindings.h"
 #include "lua_api.h"
 
-extern struct TermitData termit;
+extern struct HermitData hermit;
 extern struct Configs configs;
 
 lua_State* L = NULL;
 
-void termit_lua_close()
+void hermit_lua_close()
 {
     lua_close(L);
 }
@@ -51,7 +52,7 @@ static void trace_menus(GArray* menus)
 #endif
 }
 
-void termit_config_get_string(gchar** opt, lua_State* ls, int index)
+void hermit_config_get_string(gchar** opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isstring(ls, index)) {
         if (*opt)
@@ -60,25 +61,25 @@ void termit_config_get_string(gchar** opt, lua_State* ls, int index)
     }
 }
 
-void termit_config_get_double(double* opt, lua_State* ls, int index)
+void hermit_config_get_double(double* opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isnumber(ls, index))
         *opt = lua_tonumber(ls, index);
 }
 
-void termit_config_getuint(guint* opt, lua_State* ls, int index)
+void hermit_config_getuint(guint* opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isnumber(ls, index))
         *opt = lua_tointeger(ls, index);
 }
 
-void termit_config_get_boolean(gboolean* opt, lua_State* ls, int index)
+void hermit_config_get_boolean(gboolean* opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isboolean(ls, index))
         *opt = lua_toboolean(ls, index);
 }
 
-void termit_config_get_function(int* opt, lua_State* ls, int index)
+void hermit_config_get_function(int* opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isfunction(ls, index)) {
         *opt = luaL_ref(ls, LUA_REGISTRYINDEX); // luaL_ref pops value so we restore stack size
@@ -86,10 +87,10 @@ void termit_config_get_function(int* opt, lua_State* ls, int index)
     }
 }
 
-void termit_config_get_color(GdkColor** opt, lua_State* ls, int index)
+void hermit_config_get_color(GdkColor** opt, lua_State* ls, int index)
 {
     gchar* color_str = NULL;
-    termit_config_get_string(&color_str, ls, index);
+    hermit_config_get_string(&color_str, ls, index);
     if (color_str) {
         GdkColor color = {};
         if (gdk_color_parse(color_str, &color) == TRUE) {
@@ -100,27 +101,27 @@ void termit_config_get_color(GdkColor** opt, lua_State* ls, int index)
     g_free(color_str);
 }
 
-void termit_config_get_erase_binding(VteTerminalEraseBinding* opt, lua_State* ls, int index)
+void hermit_config_get_erase_binding(VteTerminalEraseBinding* opt, lua_State* ls, int index)
 {
     gchar* str = NULL;
-    termit_config_get_string(&str, ls, index);
-    *opt = termit_erase_binding_from_string(str);
+    hermit_config_get_string(&str, ls, index);
+    *opt = hermit_erase_binding_from_string(str);
     g_free(str);
 }
 
-void termit_config_get_cursor_blink_mode(VteTerminalCursorBlinkMode* opt, lua_State* ls, int index)
+void hermit_config_get_cursor_blink_mode(VteTerminalCursorBlinkMode* opt, lua_State* ls, int index)
 {
     gchar* str = NULL;
-    termit_config_get_string(&str, ls, index);
-    *opt = termit_cursor_blink_mode_from_string(str);
+    hermit_config_get_string(&str, ls, index);
+    *opt = hermit_cursor_blink_mode_from_string(str);
     g_free(str);
 }
 
-void termit_config_get_cursor_shape(VteTerminalCursorShape* opt, lua_State* ls, int index)
+void hermit_config_get_cursor_shape(VteTerminalCursorShape* opt, lua_State* ls, int index)
 {
     gchar* str = NULL;
-    termit_config_get_string(&str, ls, index);
-    *opt = termit_cursor_shape_from_string(str);
+    hermit_config_get_string(&str, ls, index);
+    *opt = hermit_cursor_shape_from_string(str);
     g_free(str);
 }
 
@@ -141,7 +142,7 @@ static void matchesLoader(const gchar* pattern, struct lua_State* ls, int index,
     }
     match.flags = 0;
     match.pattern = g_strdup(pattern);
-    termit_config_get_function(&match.lua_callback, ls, index);
+    hermit_config_get_function(&match.lua_callback, ls, index);
     g_array_append_val(matches, match);
 }
 
@@ -170,8 +171,8 @@ static void tabsLoader(const gchar* name, lua_State* ls, int index, void* data)
     if (lua_istable(ls, index)) {
         GArray* tabs = (GArray*)data;
         struct TabInfo ti = {};
-        if (termit_lua_load_table(ls, termit_lua_tab_loader, index, &ti)
-                != TERMIT_LUA_TABLE_LOADER_OK) {
+        if (hermit_lua_load_table(ls, hermit_lua_tab_loader, index, &ti)
+                != HERMIT_LUA_TABLE_LOADER_OK) {
             ERROR("failed to load tab: %s %s", name, lua_tostring(ls, 3));
         } else {
             g_array_append_val(tabs, ti);
@@ -182,7 +183,7 @@ static void tabsLoader(const gchar* name, lua_State* ls, int index, void* data)
     }
 }
 
-void termit_lua_load_colormap(lua_State* ls, int index, GdkColor** colors, glong* sz)
+void hermit_lua_load_colormap(lua_State* ls, int index, GdkColor** colors, glong* sz)
 {
     if (lua_isnil(ls, index) || !lua_istable(ls, index)) {
         ERROR("invalid colormap type");
@@ -199,8 +200,8 @@ void termit_lua_load_colormap(lua_State* ls, int index, GdkColor** colors, glong
     }
     struct ColormapHelper ch = {};
     ch.colors = g_malloc0(size * sizeof(GdkColor));
-    if (termit_lua_load_table(ls, colormapLoader, index, &ch)
-            == TERMIT_LUA_TABLE_LOADER_OK) {
+    if (hermit_lua_load_table(ls, colormapLoader, index, &ch)
+            == HERMIT_LUA_TABLE_LOADER_OK) {
         if (*colors) {
             g_free(*colors);
         }
@@ -213,7 +214,7 @@ void termit_lua_load_colormap(lua_State* ls, int index, GdkColor** colors, glong
     TRACE("colormap loaded: size=%ld", *sz);
 }
 
-static void termit_config_get_position(GtkPositionType* pos, lua_State* ls, int index)
+static void hermit_config_get_position(GtkPositionType* pos, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isstring(ls, index)) {
         const char* str = lua_tostring(ls, index);
@@ -231,77 +232,77 @@ static void termit_config_get_position(GtkPositionType* pos, lua_State* ls, int 
     }
 }
 
-void termit_lua_options_loader(const gchar* name, lua_State* ls, int index, void* data)
+void hermit_lua_options_loader(const gchar* name, lua_State* ls, int index, void* data)
 {
     struct Configs* p_cfg = (struct Configs*)data;
     if (!strcmp(name, "tabName"))
-        termit_config_get_string(&(p_cfg->default_tab_name), ls, index);
+        hermit_config_get_string(&(p_cfg->default_tab_name), ls, index);
     else if (!strcmp(name, "windowTitle"))
-        termit_config_get_string(&(p_cfg->default_window_title), ls, index);
+        hermit_config_get_string(&(p_cfg->default_window_title), ls, index);
     else if (!strcmp(name, "encoding"))
-        termit_config_get_string(&(p_cfg->default_encoding), ls, index);
+        hermit_config_get_string(&(p_cfg->default_encoding), ls, index);
     else if (!strcmp(name, "wordChars"))
-        termit_config_get_string(&(p_cfg->default_word_chars), ls, index);
+        hermit_config_get_string(&(p_cfg->default_word_chars), ls, index);
     else if (!strcmp(name, "font"))
-        termit_config_get_string(&(p_cfg->style.font_name), ls, index);
+        hermit_config_get_string(&(p_cfg->style.font_name), ls, index);
     else if (!strcmp(name, "foregroundColor")) 
-        termit_config_get_color(&p_cfg->style.foreground_color, ls, index);
+        hermit_config_get_color(&p_cfg->style.foreground_color, ls, index);
     else if (!strcmp(name, "backgroundColor")) 
-        termit_config_get_color(&p_cfg->style.background_color, ls, index);
+        hermit_config_get_color(&p_cfg->style.background_color, ls, index);
     else if (!strcmp(name, "showScrollbar"))
-        termit_config_get_boolean(&(p_cfg->show_scrollbar), ls, index);
+        hermit_config_get_boolean(&(p_cfg->show_scrollbar), ls, index);
     else if (!strcmp(name, "transparency"))
-        termit_config_get_double(&(p_cfg->style.transparency), ls, index);
+        hermit_config_get_double(&(p_cfg->style.transparency), ls, index);
     else if (!strcmp(name, "imageFile"))
-        termit_config_get_string(&(p_cfg->style.image_file), ls, index);
+        hermit_config_get_string(&(p_cfg->style.image_file), ls, index);
     else if (!strcmp(name, "fillTabbar"))
-        termit_config_get_boolean(&(p_cfg->fill_tabbar), ls, index);
+        hermit_config_get_boolean(&(p_cfg->fill_tabbar), ls, index);
     else if (!strcmp(name, "hideSingleTab"))
-        termit_config_get_boolean(&(p_cfg->hide_single_tab), ls, index);
+        hermit_config_get_boolean(&(p_cfg->hide_single_tab), ls, index);
     else if (!strcmp(name, "topMenu"))
-        termit_config_get_boolean(&(p_cfg->top_menu), ls, index);
+        hermit_config_get_boolean(&(p_cfg->top_menu), ls, index);
     else if (!strcmp(name, "hideMenubar"))
-        termit_config_get_boolean(&(p_cfg->hide_menubar), ls, index);
+        hermit_config_get_boolean(&(p_cfg->hide_menubar), ls, index);
     else if (!strcmp(name, "hideTabbar"))
-        termit_config_get_boolean(&(p_cfg->hide_tabbar), ls, index);
+        hermit_config_get_boolean(&(p_cfg->hide_tabbar), ls, index);
     else if (!strcmp(name, "showBorder"))
-        termit_config_get_boolean(&(p_cfg->show_border), ls, index);
+        hermit_config_get_boolean(&(p_cfg->show_border), ls, index);
     else if (!strcmp(name, "scrollbackLines"))
-        termit_config_getuint(&(p_cfg->scrollback_lines), ls, index);
+        hermit_config_getuint(&(p_cfg->scrollback_lines), ls, index);
     else if (!strcmp(name, "allowChangingTitle"))
-        termit_config_get_boolean(&(p_cfg->allow_changing_title), ls, index);
+        hermit_config_get_boolean(&(p_cfg->allow_changing_title), ls, index);
     else if (!strcmp(name, "audibleBell"))
-        termit_config_get_boolean(&(p_cfg->audible_bell), ls, index);
+        hermit_config_get_boolean(&(p_cfg->audible_bell), ls, index);
     else if (!strcmp(name, "visibleBell"))
-        termit_config_get_boolean(&(p_cfg->visible_bell), ls, index);
+        hermit_config_get_boolean(&(p_cfg->visible_bell), ls, index);
     else if (!strcmp(name, "urgencyOnBell"))
-        termit_config_get_boolean(&(p_cfg->urgency_on_bell), ls, index);
+        hermit_config_get_boolean(&(p_cfg->urgency_on_bell), ls, index);
     else if (!strcmp(name, "getWindowTitle"))
-        termit_config_get_function(&(p_cfg->get_window_title_callback), ls, index);
+        hermit_config_get_function(&(p_cfg->get_window_title_callback), ls, index);
     else if (!strcmp(name, "tabPos"))
-        termit_config_get_position(&(p_cfg->tab_pos), ls, index);
+        hermit_config_get_position(&(p_cfg->tab_pos), ls, index);
     else if (!strcmp(name, "getTabTitle"))
-        termit_config_get_function(&(p_cfg->get_tab_title_callback), ls, index);
+        hermit_config_get_function(&(p_cfg->get_tab_title_callback), ls, index);
     else if (!strcmp(name, "setStatusbar"))
-        termit_config_get_function(&(p_cfg->get_statusbar_callback), ls, index);
+        hermit_config_get_function(&(p_cfg->get_statusbar_callback), ls, index);
     else if (!strcmp(name, "backspaceBinding"))
-        termit_config_get_erase_binding(&(p_cfg->default_bksp), ls, index);
+        hermit_config_get_erase_binding(&(p_cfg->default_bksp), ls, index);
     else if (!strcmp(name, "deleteBinding"))
-        termit_config_get_erase_binding(&(p_cfg->default_delete), ls, index);
+        hermit_config_get_erase_binding(&(p_cfg->default_delete), ls, index);
     else if (!strcmp(name, "cursorBlinkMode"))
-        termit_config_get_cursor_blink_mode(&(p_cfg->default_blink), ls, index);
+        hermit_config_get_cursor_blink_mode(&(p_cfg->default_blink), ls, index);
     else if (!strcmp(name, "cursorShape"))
-        termit_config_get_cursor_shape(&(p_cfg->default_shape), ls, index);
+        hermit_config_get_cursor_shape(&(p_cfg->default_shape), ls, index);
     else if (!strcmp(name, "colormap")) {
-        termit_lua_load_colormap(ls, index, &configs.style.colors, &configs.style.colors_size);
+        hermit_lua_load_colormap(ls, index, &configs.style.colors, &configs.style.colors_size);
     } else if (!strcmp(name, "matches")) {
-        if (termit_lua_load_table(ls, matchesLoader, index, configs.matches)
-                != TERMIT_LUA_TABLE_LOADER_OK) {
+        if (hermit_lua_load_table(ls, matchesLoader, index, configs.matches)
+                != HERMIT_LUA_TABLE_LOADER_OK) {
             ERROR("failed to load matches");
         }
     } else if (!strcmp(name, "geometry")) {
         gchar* geometry_str = NULL;
-        termit_config_get_string(&geometry_str, ls, index);
+        hermit_config_get_string(&geometry_str, ls, index);
         if (geometry_str) {
             unsigned int cols = 0, rows = 0;
             int tmp1 = 0, tmp2 = 0;
@@ -318,8 +319,8 @@ void termit_lua_options_loader(const gchar* name, lua_State* ls, int index, void
                 configs.default_tabs = g_array_new(FALSE, TRUE, sizeof(struct TabInfo));
             }
             TRACE("tabs at index: %d tabs.size=%d", index, configs.default_tabs->len);
-            if (termit_lua_load_table(ls, tabsLoader, index, configs.default_tabs)
-                    != TERMIT_LUA_TABLE_LOADER_OK) {
+            if (hermit_lua_load_table(ls, tabsLoader, index, configs.default_tabs)
+                    != HERMIT_LUA_TABLE_LOADER_OK) {
                 ERROR("openTab failed");
             }
         } else {
@@ -328,15 +329,15 @@ void termit_lua_options_loader(const gchar* name, lua_State* ls, int index, void
     }
 }
 
-static void termit_lua_add_package_path(const gchar* path)
+static void hermit_lua_add_package_path(const gchar* path)
 {
     gchar* luaCmd = g_strdup_printf("package.path = package.path .. \";%s/?.lua\"", path);
     int s = luaL_dostring(L, luaCmd);
-    termit_lua_report_error(__FILE__, __LINE__, s);
+    hermit_lua_report_error(__FILE__, __LINE__, s);
     g_free(luaCmd);
 }
 
-static gchar** termit_system_path()
+static gchar** hermit_system_path()
 {
     const gchar *configSystem = g_getenv("XDG_CONFIG_DIRS");
     gchar* xdgConfigDirs = NULL;
@@ -350,7 +351,7 @@ static gchar** termit_system_path()
     return systemPaths;
 }
 
-static gchar* termit_user_path()
+static gchar* hermit_user_path()
 {
     const gchar *configHome = g_getenv("XDG_CONFIG_HOME");
     if (configHome)
@@ -362,23 +363,23 @@ static gchar* termit_user_path()
 static void load_init(const gchar* initFile)
 {
     const gchar *configFile = "rc.lua";
-    gchar** systemPaths = termit_system_path();
+    gchar** systemPaths = hermit_system_path();
     guint i = 0;
     gchar* systemPath = systemPaths[i];
     while (systemPath) {
         if (g_file_test(systemPath, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR) == TRUE) {
-            termit_lua_add_package_path(systemPath);
+            hermit_lua_add_package_path(systemPath);
         }
         systemPath = systemPaths[++i];
     }
-    gchar* userPath = termit_user_path();
-    termit_lua_add_package_path(userPath);
+    gchar* userPath = hermit_user_path();
+    hermit_lua_add_package_path(userPath);
 
     gchar* fullPath = NULL;
     if (initFile) {
         fullPath = g_strdup(initFile);
     } else {
-        fullPath = g_strdup_printf("%s/termit/%s", userPath, configFile);
+        fullPath = g_strdup_printf("%s/hermit/%s", userPath, configFile);
         if (g_file_test(fullPath, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR) == FALSE) {
             TRACE("%s not found", fullPath);
             g_free(fullPath);
@@ -386,7 +387,7 @@ static void load_init(const gchar* initFile)
             i = 0;
             gchar* systemPath = systemPaths[i];
             while (systemPath) {
-                fullPath = g_strdup_printf("%s/termit/%s", systemPath, configFile);
+                fullPath = g_strdup_printf("%s/hermit/%s", systemPath, configFile);
                 if (g_file_test(fullPath, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR) == FALSE) {
                     TRACE("%s not found", fullPath);
                     g_free(fullPath);
@@ -403,37 +404,37 @@ static void load_init(const gchar* initFile)
     if (fullPath) {
         TRACE("using config: %s", fullPath);
         int s = luaL_loadfile(L, fullPath);
-        termit_lua_report_error(__FILE__, __LINE__, s);
+        hermit_lua_report_error(__FILE__, __LINE__, s);
         g_free(fullPath);
 
         s = lua_pcall(L, 0, LUA_MULTRET, 0);
-        termit_lua_report_error(__FILE__, __LINE__, s);
+        hermit_lua_report_error(__FILE__, __LINE__, s);
     } else {
         ERROR("config file %s not found", configFile);
     }
 }
 
-int termit_lua_fill_tab(int tab_index, lua_State* ls)
+int hermit_lua_fill_tab(int tab_index, lua_State* ls)
 {
-    TERMIT_GET_TAB_BY_INDEX(pTab, tab_index, return 0);
+    HERMIT_GET_TAB_BY_INDEX(pTab, tab_index, return 0);
     lua_newtable(ls);
-    TERMIT_TAB_ADD_STRING("title", pTab->title);
-    TERMIT_TAB_ADD_STRING("command", pTab->argv[0]);
-    TERMIT_TAB_ADD_STRING("argv", "");
+    HERMIT_TAB_ADD_STRING("title", pTab->title);
+    HERMIT_TAB_ADD_STRING("command", pTab->argv[0]);
+    HERMIT_TAB_ADD_STRING("argv", "");
     // FIXME: add argv
-    TERMIT_TAB_ADD_STRING("encoding", pTab->encoding);
-    gchar* working_dir = termit_get_pid_dir(pTab->pid);
-    TERMIT_TAB_ADD_STRING("workingDir", working_dir);
+    HERMIT_TAB_ADD_STRING("encoding", pTab->encoding);
+    gchar* working_dir = hermit_get_pid_dir(pTab->pid);
+    HERMIT_TAB_ADD_STRING("workingDir", working_dir);
     g_free(working_dir);
-    TERMIT_TAB_ADD_NUMBER("pid", pTab->pid);
-    TERMIT_TAB_ADD_STRING("font", pTab->style.font_name);
-    TERMIT_TAB_ADD_NUMBER("fontSize", pango_font_description_get_size(pTab->style.font)/PANGO_SCALE);
-    TERMIT_TAB_ADD_STRING("backspaceBinding", termit_erase_binding_to_string(pTab->bksp_binding));
-    TERMIT_TAB_ADD_STRING("deleteBinding", termit_erase_binding_to_string(pTab->delete_binding));
+    HERMIT_TAB_ADD_NUMBER("pid", pTab->pid);
+    HERMIT_TAB_ADD_STRING("font", pTab->style.font_name);
+    HERMIT_TAB_ADD_NUMBER("fontSize", pango_font_description_get_size(pTab->style.font)/PANGO_SCALE);
+    HERMIT_TAB_ADD_STRING("backspaceBinding", hermit_erase_binding_to_string(pTab->bksp_binding));
+    HERMIT_TAB_ADD_STRING("deleteBinding", hermit_erase_binding_to_string(pTab->delete_binding));
     return 1;
 }
 
-static int termit_lua_tabs_index(lua_State* ls)
+static int hermit_lua_tabs_index(lua_State* ls)
 {
     if (lua_isnumber(ls, 1)) {
         TRACE_MSG("index is not number: skipping");
@@ -441,48 +442,48 @@ static int termit_lua_tabs_index(lua_State* ls)
     }
     int tab_index =  lua_tointeger(ls, -1);
     TRACE("tab_index:%d", tab_index);
-    return termit_lua_fill_tab(tab_index - 1, ls);
+    return hermit_lua_fill_tab(tab_index - 1, ls);
 }
 
-static int termit_lua_tabs_newindex(lua_State* ls)
+static int hermit_lua_tabs_newindex(lua_State* ls)
 {
     ERROR("'tabs' is read-only variable");
     return 0;
 }
 
-static void termit_lua_init_tabs()
+static void hermit_lua_init_tabs()
 {
     lua_newtable(L);
     luaL_newmetatable(L, "tabs_meta");
-    lua_pushcfunction(L, termit_lua_tabs_index);
+    lua_pushcfunction(L, hermit_lua_tabs_index);
     lua_setfield(L, -2, "__index");
-    lua_pushcfunction(L, termit_lua_tabs_newindex);
+    lua_pushcfunction(L, hermit_lua_tabs_newindex);
     lua_setfield(L, -2, "__newindex");
     lua_setmetatable(L, -2);
     lua_setglobal(L, "tabs");
 }
 
-static const gchar* termit_init_file = NULL;
+static const gchar* hermit_init_file = NULL;
 
-void termit_lua_load_config()
+void hermit_lua_load_config()
 {
-    load_init(termit_init_file);
-    termit_config_trace();
+    load_init(hermit_init_file);
+    hermit_config_trace();
 
     trace_menus(configs.user_menus);
     trace_menus(configs.user_popup_menus);
 }
 
-void termit_lua_init(const gchar* initFile)
+void hermit_lua_init(const gchar* initFile)
 {
     L = luaL_newstate();
     luaL_openlibs(L);
 
-    if (!termit_init_file)
-        termit_init_file = g_strdup(initFile);
-    termit_lua_init_tabs();
-    termit_lua_init_api();
-    termit_keys_set_defaults();
-    termit_lua_load_config();
+    if (!hermit_init_file)
+        hermit_init_file = g_strdup(initFile);
+    hermit_lua_init_tabs();
+    hermit_lua_init_api();
+    hermit_keys_set_defaults();
+    hermit_lua_load_config();
 }
 

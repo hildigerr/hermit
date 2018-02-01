@@ -1,18 +1,19 @@
 /*  Copyright (C) 2007-2010, Evgeny Ratnikov
+    Copyright (C) 2018, Roberto Vergaray
 
-    This file is part of termit.
-    termit is free software: you can redistribute it and/or modify
+    This file is part of hermit, forked from termit.
+    hermit is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2
     as published by the Free Software Foundation.
-    termit is distributed in the hope that it will be useful,
+    hermit is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with termit. If not, see <http://www.gnu.org/licenses/>.*/
+    along with hermit. If not, see <http://www.gnu.org/licenses/>.*/
 
-#ifndef TERMIT_H
-#define TERMIT_H
+#ifndef HERMIT_H
+#define HERMIT_H
 
 
 #include <config.h>
@@ -26,7 +27,7 @@
 
 #include "termit_style.h"
 
-struct TermitData
+struct HermitData
 {
     GtkWidget *main_window;
     GtkWidget *notebook;
@@ -43,9 +44,9 @@ struct TermitData
     GtkWidget *menu_bar;
     gint tab_max_number;
 };
-extern struct TermitData termit;
+extern struct HermitData hermit;
 
-struct TermitTab
+struct HermitTab
 {
     GtkWidget *tab_name;
     GtkWidget *hbox;
@@ -63,7 +64,7 @@ struct TermitTab
     gchar **argv;
     gchar *title;
     GArray* matches;
-    struct TermitStyle style;
+    struct HermitStyle style;
     pid_t pid;
 };
 
@@ -79,9 +80,9 @@ struct TabInfo
     VteTerminalCursorShape cursor_shape;
 };
 
-struct TermitTab* termit_get_tab_by_index(guint index);
-#define TERMIT_GET_TAB_BY_INDEX(pTab, ind, action) \
-    struct TermitTab* pTab = termit_get_tab_by_index(ind); \
+struct HermitTab* hermit_get_tab_by_index(guint index);
+#define HERMIT_GET_TAB_BY_INDEX(pTab, ind, action) \
+    struct HermitTab* pTab = hermit_get_tab_by_index(ind); \
     if (!pTab) \
     {   g_fprintf(stderr, "%s:%d error: %s is null\n", __FILE__, __LINE__, #pTab); action; }
 
@@ -99,5 +100,5 @@ struct TermitTab* termit_get_tab_by_index(guint index);
 #define TRACE_FUNC
 #endif
 
-#endif /* TERMIT_H */
+#endif /* HERMIT_H */
 

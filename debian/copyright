@@ -20,10 +20,25 @@ License: GPL-2
 
 Files: *
 Copyright: Copyright (C) 2007-2012, Evgeny Ratnikov
+Copyright: Copyright (C) 2018, Roberto Vergaray <moonsdad@gmail.com>
 License: GPL-2
 
 Files: debian/*
 Copyright: Copyright (C) 2011 Tomas Fasth <tomfa@debian.org>
            Copyright (C) 2012 Thomas Koch <thomas@koch.ro>
+           Copyright (c) 2016 Roberto Vergaray <moonsdad@gmail.com>
 License: GPL-2
 
+Files: etc/termit/messenger-1st-image-mercury.jpg
+Copyright: 2011 NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington
+License: https://www.nasa.gov/multimedia/guidelines/index.html
+
+Still Images, Audio Recordings, Video, and Related Computer Files for Non-Commercial Use
+
+NASA content - images, audio, video, and computer files used in the rendition of 3-dimensional models, such as texture maps and polygon data in any format - generally are not copyrighted. You may use this material for educational or informational purposes, including photo collections, textbooks, public exhibits, computer graphical simulations and Internet Web pages. This general permission extends to personal Web pages.
+
+News outlets, schools, and text-book authors may use NASA content without needing explicit permission. NASA content used in a factual manner that does not imply endorsement may be used without needing explicit permission. NASA should be acknowledged as the source of the material. NASA occasionally uses copyrighted material by permission on its website. Those images will be marked copyright with the name of the copyright holder. NASA's use does not convey any rights to others to use the same material. Those wishing to use copyrighted material must contact the copyright holder directly.
+
+NASA has extensive image and video galleries online, including historic images, current missions, astronomy pictures, and ways to search for NASA images. Generally, each mission and program has a video and image collection on the topic page. For example, space station videos can be found at https://www.nasa.gov/mission_pages/station/videos/index.html. Content can also be found on our extensive social media channels.  
+
+For questions about specific images, please call 202-358-1900. For questions about specific video, please call 202-358-0309.

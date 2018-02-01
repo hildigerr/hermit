@@ -1,15 +1,16 @@
 /*  Copyright (C) 2007-2010, Evgeny Ratnikov
+    Copyright (C) 2018, Roberto Vergaray
 
-    This file is part of termit.
-    termit is free software: you can redistribute it and/or modify
+    This file is part of hermit, forked from termit.
+    hermit is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 
     as published by the Free Software Foundation.
-    termit is distributed in the hope that it will be useful,
+    hermit is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with termit. If not, see <http://www.gnu.org/licenses/>.*/
+    along with hermit. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <string.h>
 #include <gtk/gtk.h>
@@ -18,7 +19,7 @@
 
 #include "termit_style.h"
 
-void termit_style_init(struct TermitStyle* style)
+void hermit_style_init(struct HermitStyle* style)
 {
     style->font_name = g_strdup("Monospace 10");
     style->font = pango_font_description_from_string(style->font_name);
@@ -30,7 +31,7 @@ void termit_style_init(struct TermitStyle* style)
     style->transparency = 0;    
 }
 
-void termit_style_free(struct TermitStyle* style)
+void hermit_style_free(struct HermitStyle* style)
 {
     g_free(style->font_name);
     pango_font_description_free(style->font);
@@ -46,11 +47,11 @@ void termit_style_free(struct TermitStyle* style)
     if (style->foreground_color) {
         gdk_color_free(style->foreground_color);
     }
-    struct TermitStyle tmp = {};
+    struct HermitStyle tmp = {};
     *style = tmp;
 }
 
-void termit_style_copy(struct TermitStyle* dest, const struct TermitStyle* src)
+void hermit_style_copy(struct HermitStyle* dest, const struct HermitStyle* src)
 {
     dest->font_name = g_strdup(src->font_name);
     dest->font = pango_font_description_from_string(src->font_name);

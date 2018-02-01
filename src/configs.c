@@ -1,15 +1,16 @@
 /*  Copyright (C) 2007-2010, Evgeny Ratnikov
+    Copyright (C) 2018, Roberto Vergaray
 
-    This file is part of termit.
-    termit is free software: you can redistribute it and/or modify
+    This file is part of hermit, forked from termit.
+    hermit is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 
     as published by the Free Software Foundation.
-    termit is distributed in the hope that it will be useful,
+    hermit is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with termit. If not, see <http://www.gnu.org/licenses/>.*/
+    along with hermit. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <string.h>
 #include <gdk/gdk.h>
@@ -33,12 +34,12 @@ static struct {
 };
 static guint EraseBindingsSz = sizeof(erase_bindings)/sizeof(erase_bindings[0]);
 
-const char* termit_erase_binding_to_string(VteTerminalEraseBinding val)
+const char* hermit_erase_binding_to_string(VteTerminalEraseBinding val)
 {
     return erase_bindings[val].name;
 }
 
-VteTerminalEraseBinding termit_erase_binding_from_string(const char* str)
+VteTerminalEraseBinding hermit_erase_binding_from_string(const char* str)
 {
     guint i = 0;
     for (; i < EraseBindingsSz; ++i) {
@@ -60,12 +61,12 @@ static struct {
 };
 static guint BlinkModesSz = sizeof(cursor_blink_modes)/sizeof(cursor_blink_modes[0]);
 
-const char* termit_cursor_blink_mode_to_string(VteTerminalCursorBlinkMode val)
+const char* hermit_cursor_blink_mode_to_string(VteTerminalCursorBlinkMode val)
 {
     return cursor_blink_modes[val].name;
 }
 
-VteTerminalCursorBlinkMode termit_cursor_blink_mode_from_string(const char* str)
+VteTerminalCursorBlinkMode hermit_cursor_blink_mode_from_string(const char* str)
 {
     guint i = 0;
     for (; i < BlinkModesSz; ++i) {
@@ -87,12 +88,12 @@ static struct {
 };
 static guint ShapesSz = sizeof(cursor_shapes)/sizeof(cursor_shapes[0]);
 
-const char* termit_cursor_shape_to_string(VteTerminalCursorShape val)
+const char* hermit_cursor_shape_to_string(VteTerminalCursorShape val)
 {
     return cursor_shapes[val].name;
 }
 
-VteTerminalCursorShape termit_cursor_shape_from_string(const char* str)
+VteTerminalCursorShape hermit_cursor_shape_from_string(const char* str)
 {
     guint i = 0;
     for (; i < ShapesSz; ++i) {
@@ -104,7 +105,7 @@ VteTerminalCursorShape termit_cursor_shape_from_string(const char* str)
     return VTE_CURSOR_SHAPE_BLOCK;
 }
 
-void termit_config_trace()
+void hermit_config_trace()
 {
 #ifdef DEBUG
     TRACE_MSG("");
@@ -121,10 +122,10 @@ void termit_config_trace()
     TRACE("   hide_single_tab               = %d", configs.hide_single_tab);
     TRACE("   scrollback_lines              = %d", configs.scrollback_lines);
     TRACE("   cols x rows                   = %d x %d", configs.cols, configs.rows);
-    TRACE("   backspace                     = %s", termit_erase_binding_to_string(configs.default_bksp));
-    TRACE("   delete                        = %s", termit_erase_binding_to_string(configs.default_delete));
-    TRACE("   blink                         = %s", termit_cursor_blink_mode_to_string(configs.default_blink));
-    TRACE("   shape                         = %s", termit_cursor_shape_to_string(configs.default_shape));
+    TRACE("   backspace                     = %s", hermit_erase_binding_to_string(configs.default_bksp));
+    TRACE("   delete                        = %s", hermit_erase_binding_to_string(configs.default_delete));
+    TRACE("   blink                         = %s", hermit_cursor_blink_mode_to_string(configs.default_blink));
+    TRACE("   shape                         = %s", hermit_cursor_shape_to_string(configs.default_shape));
     TRACE("   allow_changing_title          = %d", configs.allow_changing_title);
     TRACE("   audible_bell                  = %d", configs.audible_bell);
     TRACE("   visible_bell                  = %d", configs.visible_bell);
@@ -151,11 +152,11 @@ void termit_config_trace()
 #endif 
 }
 
-void termit_configs_set_defaults()
+void hermit_configs_set_defaults()
 {
-    configs.default_window_title = g_strdup("Termit");
+    configs.default_window_title = g_strdup("Hermit");
     configs.default_tab_name = g_strdup("Terminal");
-    termit_style_init(&configs.style);
+    hermit_style_init(&configs.style);
     configs.default_command = g_strdup(g_getenv("SHELL"));
     configs.default_encoding = g_strdup("UTF-8");
     configs.default_word_chars = g_strdup("-A-Za-z0-9,./?%&#_~");
@@ -187,7 +188,7 @@ void termit_configs_set_defaults()
     configs.get_window_title_callback = 0;
     configs.get_tab_title_callback = 0;
     configs.get_statusbar_callback = 0;
-    configs.kb_policy = TermitKbUseKeysym;
+    configs.kb_policy = HermitKbUseKeysym;
     configs.tab_pos = GTK_POS_TOP;
 }
 
@@ -201,18 +202,18 @@ static void free_menu(GArray* menus)
             struct UserMenuItem* umi = &g_array_index(um->items, struct UserMenuItem, j);
             g_free(umi->name);
             g_free(umi->accel);
-            termit_lua_unref(&umi->lua_callback);
+            hermit_lua_unref(&umi->lua_callback);
         }
         g_free(um->name);
         g_array_free(um->items, TRUE);
     }
 }
 
-void termit_config_deinit()
+void hermit_config_deinit()
 {
     g_free(configs.default_window_title);
     g_free(configs.default_tab_name);
-    termit_style_free(&configs.style);
+    hermit_style_free(&configs.style);
     g_free(configs.default_command);
     g_free(configs.default_encoding);
     g_free(configs.default_word_chars);
@@ -226,14 +227,14 @@ void termit_config_deinit()
     guint i = 0;
     for (; i<configs.key_bindings->len; ++i) {
         struct KeyBinding* kb = &g_array_index(configs.key_bindings, struct KeyBinding, i);
-        termit_lua_unref(&kb->lua_callback);
+        hermit_lua_unref(&kb->lua_callback);
     }
     g_array_free(configs.key_bindings, TRUE);
 
     i = 0;
     for (; i<configs.mouse_bindings->len; ++i) {
         struct MouseBinding* mb = &g_array_index(configs.mouse_bindings, struct MouseBinding, i);
-        termit_lua_unref(&mb->lua_callback);
+        hermit_lua_unref(&mb->lua_callback);
     }
     g_array_free(configs.mouse_bindings, TRUE);
 
@@ -245,8 +246,8 @@ void termit_config_deinit()
     }
     g_array_free(configs.matches, TRUE);
     
-    termit_lua_unref(&configs.get_window_title_callback);
-    termit_lua_unref(&configs.get_tab_title_callback);
-    termit_lua_unref(&configs.get_statusbar_callback);
+    hermit_lua_unref(&configs.get_window_title_callback);
+    hermit_lua_unref(&configs.get_tab_title_callback);
+    hermit_lua_unref(&configs.get_statusbar_callback);
 }
 

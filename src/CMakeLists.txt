@@ -1,19 +1,20 @@
 # Copyright (C) 2007-2010, Evgeny Ratnikov
+# Copyright (C) 2018, Roberto Vergaray
 #
-# This file is part of termit.
-# termit is free software: you can redistribute it and/or modify
+# This file is part of hermit, forked from termit.
+# hermit is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License version 2 
 # as published by the Free Software Foundation.
-# termit is distributed in the hope that it will be useful,
+# hermit is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
-# along with termit. If not, see <http://www.gnu.org/licenses/>.
+# along with hermit. If not, see <http://www.gnu.org/licenses/>.
 
-SET(TARGET "termit")
+SET(TARGET "hermit")
 
-INCLUDE_DIRECTORIES(${TERMIT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${HERMIT_SOURCE_DIR})
 
 INCLUDE (FindPkgConfig)
 
@@ -58,38 +59,38 @@ ENDIF(NOT LUA_FOUND)
 
 INCLUDE(Sources.cmake)
 
-SET(TERMIT_CFLAGS "-I${LUA_INCLUDE_DIR}")
+SET(HERMIT_CFLAGS "-I${LUA_INCLUDE_DIR}")
 IF(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-  SET(TERMIT_CFLAGS "${TERMIT_CFLAGS} -I/usr/local/include")
+  SET(HERMIT_CFLAGS "${HERMIT_CFLAGS} -I/usr/local/include")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
 FOREACH(cflag ${VTE_CFLAGS} ${GTK_CFLAGS} ${LUA_CFLAGS})
-  SET(TERMIT_CFLAGS "${TERMIT_CFLAGS} ${cflag}")
+  SET(HERMIT_CFLAGS "${HERMIT_CFLAGS} ${cflag}")
 ENDFOREACH(cflag)
 
 IF(DEBUG)
   SET(EXTRA_CFLAGS "-Wall -Wextra -Wno-missing-field-initializers -Wno-unused-parameter")
-  SET(TERMIT_CFLAGS "${TERMIT_CFLAGS} ${EXTRA_CFLAGS} -g -DDEBUG -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE")
+  SET(HERMIT_CFLAGS "${HERMIT_CFLAGS} ${EXTRA_CFLAGS} -g -DDEBUG -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE")
 ELSE(DEBUG)
-  SET(TERMIT_CFLAGS "${TERMIT_CFLAGS} -O2")
+  SET(HERMIT_CFLAGS "${HERMIT_CFLAGS} -O2")
 ENDIF(DEBUG)
 
-set(TERMIT_LDFLAGS ${VTE_LDFLAGS} ${GTK_LDFLAGS})
+set(HERMIT_LDFLAGS ${VTE_LDFLAGS} ${GTK_LDFLAGS})
 
-SET_SOURCE_FILES_PROPERTIES(${TERMIT_SRCS} PROPERTIES 
-  COMPILE_FLAGS "${TERMIT_CFLAGS}")
+SET_SOURCE_FILES_PROPERTIES(${HERMIT_SRCS} PROPERTIES 
+  COMPILE_FLAGS "${HERMIT_CFLAGS}")
 
-ADD_EXECUTABLE(${TARGET} ${TERMIT_SRCS})
+ADD_EXECUTABLE(${TARGET} ${HERMIT_SRCS})
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-    SET(TERMIT_LDFLAGS"-llua5.2")
+    SET(HERMIT_LDFLAGS"-llua5.2")
 ELSE(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-    SET(TERMIT_LDFLAGS "-ldl -lm")
+    SET(HERMIT_LDFLAGS "-ldl -lm")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
 FOREACH(ldflag ${VTE_LDFLAGS} ${GTK_LDFLAGS} ${LUA_LDFLAGS})
-  LIST(APPEND TERMIT_LDFLAGS "${ldflag}")
+  LIST(APPEND HERMIT_LDFLAGS "${ldflag}")
 ENDFOREACH(ldflag)
 
-target_link_libraries(${TARGET} ${TERMIT_LDFLAGS})
+target_link_libraries(${TARGET} ${HERMIT_LDFLAGS})
 
 INSTALL(TARGETS ${TARGET} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 

@@ -1,9 +1,9 @@
       |-----handy-ruler------------------------------------------------------|
-termit: termit (terminal emulator)
-termit:
-termit: Small terminal emulator configurable via Lua.
-termit: Other dependencies are Vte and Gtk2 libs.
-termit: Termit supports multiple tabs, encoding switching and sessions.
-termit: 
-termit: http://wiki.github.com/nonstop/termit/
-termit: 
+hermit: hermit (terminal emulator)
+hermit:
+hermit: Small terminal emulator configurable via Lua.
+hermit: Other dependencies are Vte and Gtk2 libs.
+hermit: Hermit supports multiple tabs, encoding switching and sessions.
+hermit: 
+hermit: https://github.com/moonsdad/termit
+hermit: 

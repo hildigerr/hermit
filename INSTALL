@@ -2,14 +2,14 @@ Installation Instructions
 *************************
 
 
-    Termit requires CMake (version  2.4 or later). You can obtain CMake sources here http://cmake.org/.
+    Hermit requires CMake (version  2.4 or later). You can obtain CMake sources here http://cmake.org/.
 
 
 Run CMake generator:
 
     cmake .
 
-Then configure termit:
+Then configure hermit:
 
     ccmake .
 
@@ -25,7 +25,7 @@ Package makers can specify DESTDIR:
     
     make install DESTDIR="destdir"
 
-To remove termit:
+To remove hermit:
 
     make uninstall
 

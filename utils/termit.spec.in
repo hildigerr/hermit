@@ -1,9 +1,9 @@
-Summary: termit (terminal emulator)
-Name: termit
-Version: @TERMIT_PACKAGE_VERSION@
+Summary: hermit (terminal emulator)
+Name: hermit
+Version: @HERMIT_PACKAGE_VERSION@
 Release: 1%{?dist}
 License: GPLv2
-URL: http://wiki.github.com/nonstop/termit/
+URL: https://github.com/moonsdad/termit
 Group: System Environment/Base
 Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -15,7 +15,7 @@ BuildRequires:  cmake desktop-file-utils gettext
 
 %description
 Small terminal emulator. The only dependencies are Vte and Gtk2 libs.
-Termit supports tabs, bookmarks, encoding switching and sessions.
+Hermit supports tabs, bookmarks, encoding switching and sessions.
 
 %prep
 %setup -q

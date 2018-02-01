@@ -1,15 +1,16 @@
 /*  Copyright (C) 2007-2010, Evgeny Ratnikov
+    Copyright (C) 2018, Roberto Vergaray
 
-    This file is part of termit.
-    termit is free software: you can redistribute it and/or modify
+    This file is part of hermit, forked from termit.
+    hermit is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 
     as published by the Free Software Foundation.
-    termit is distributed in the hope that it will be useful,
+    hermit is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with termit. If not, see <http://www.gnu.org/licenses/>.*/
+    along with hermit. If not, see <http://www.gnu.org/licenses/>.*/
 
 #ifndef CONFIGS_H
 #define CONFIGS_H
@@ -19,7 +20,7 @@
 
 #include "termit_style.h"
 
-enum TermitKbPolicy {TermitKbUseKeycode = 1, TermitKbUseKeysym = 2};
+enum HermitKbPolicy {HermitKbUseKeycode = 1, HermitKbUseKeysym = 2};
 
 struct Configs
 {
@@ -54,9 +55,9 @@ struct Configs
     int get_window_title_callback;
     int get_tab_title_callback;
     int get_statusbar_callback;
-    enum TermitKbPolicy kb_policy;
+    enum HermitKbPolicy kb_policy;
     GtkPositionType tab_pos;
-    struct TermitStyle style;
+    struct HermitStyle style;
     GArray* default_tabs;       // TabInfo
 };
 
@@ -82,24 +83,24 @@ struct UserMenu
 
 extern struct Configs configs;
 
-void termit_config_deinit();
-void termit_configs_set_defaults();
-void termit_config_load();
+void hermit_config_deinit();
+void hermit_configs_set_defaults();
+void hermit_config_load();
 
-void termit_config_trace();
-void termit_keys_trace();
+void hermit_config_trace();
+void hermit_keys_trace();
 
-const char* termit_erase_binding_to_string(VteTerminalEraseBinding val);
-VteTerminalEraseBinding termit_erase_binding_from_string(const char* str);
+const char* hermit_erase_binding_to_string(VteTerminalEraseBinding val);
+VteTerminalEraseBinding hermit_erase_binding_from_string(const char* str);
 
-const char* termit_cursor_blink_mode_to_string(VteTerminalCursorBlinkMode val);
-VteTerminalCursorBlinkMode termit_cursor_blink_mode_from_string(const char* str);
+const char* hermit_cursor_blink_mode_to_string(VteTerminalCursorBlinkMode val);
+VteTerminalCursorBlinkMode hermit_cursor_blink_mode_from_string(const char* str);
 
-const char* termit_cursor_shape_to_string(VteTerminalCursorShape val);
-VteTerminalCursorShape termit_cursor_shape_from_string(const char* str);
+const char* hermit_cursor_shape_to_string(VteTerminalCursorShape val);
+VteTerminalCursorShape hermit_cursor_shape_from_string(const char* str);
 
-#define TERMIT_USER_MENU_ITEM_DATA "termit.umi_data"
-#define TERMIT_TAB_DATA "termit.tab_data"
+#define HERMIT_USER_MENU_ITEM_DATA "hermit.umi_data"
+#define HERMIT_TAB_DATA "hermit.tab_data"
 
 #endif /* CONFIGS_H */
 

@@ -5,11 +5,11 @@ _tab_index_ - index of tab to activate. Index of the first tab is 1.
 
 
 *addMenu(_menu_)* - Adds menu in menubar.
-_menu_ - table of TermitMenuItem type.
+_menu_ - table of HermitMenuItem type.
 
 
 *addPopupMenu(_menu_)* - Adds menu in popup menu, similar to addMenu.
-_menu_ - table of TermitMenuItem type.
+_menu_ - table of HermitMenuItem type.
 
 
 *bindKey(_keys_, _luaFunction_)* - Sets new keybinding. If luaFunction is nil removes keybinding.
@@ -32,7 +32,7 @@ _luaFunction_ - callback function
 *copy()* - Copies selection into tab's buffer.
 
 
-*currentTab()* - Returns current tab of TermitTabInfo.
+*currentTab()* - Returns current tab of HermitTabInfo.
 
 
 *currentTabIndex()* - Returns current tab index.
@@ -68,7 +68,7 @@ _func_ - function to be called.
 
 
 *openTab(_tabInfo_)* - Opens new tab.
-_tabinfo_ - table of TermitTabInfo with tab settings.
+_tabinfo_ - table of HermitTabInfo with tab settings.
 
 pre. Example:
     tabInfo = {}
@@ -121,7 +121,7 @@ pre. Example: treat keys via current XkbLayout
     setKbPolicy('keysym')
 
 *setOptions(_opts_)* - Changes default options.
-_opts_ - table of TermitOptions type with new options:
+_opts_ - table of HermitOptions type with new options:
 
 
 *setTabBackgroundColor(_color_)* - Changes background color for active tab.
@@ -143,7 +143,7 @@ _tabTitle_ - string with new tab title.
 *setTabTitleDlg()* - Displays "Set tab title" dialog.
 
 
-*setWindowTitle(_title_)* - Changes termit window title.
+*setWindowTitle(_title_)* - Changes hermit window title.
 _title_ - string with new title.
 
 
@@ -156,19 +156,19 @@ _command_ - string with command and arguments.
 
 h4. Types
 
-*TermitCursorBlinkMode* - one of those string values:
+*HermitCursorBlinkMode* - one of those string values:
 
 * System - Follow GTK+ settings for cursor blinking
 * BlinkOn - Cursor blinks
 * BlinkOff - Cursor does not blink
 
-*TermitCursorShape* - one of those string values:
+*HermitCursorShape* - one of those string values:
 
 * Block - Draw a block cursor
 * Ibeam - Draw a vertical bar on the left side of character
 * Underline - Draw a horizontal bar below the character
 
-*TermitEraseBinding* - one of those string values:
+*HermitEraseBinding* - one of those string values:
 
 * Auto - VTE_ERASE_AUTO
 * AsciiBksp - VTE_ERASE_ASCII_BACKSPACE
@@ -178,7 +178,7 @@ h4. Types
 
 For detailed description look into Vte docs.
 
-*TermitKeybindings* - table with predefined keybindings.
+*HermitKeybindings* - table with predefined keybindings.
 
 * closeTab - 'Ctrl-w'
 * copy - 'Ctrl-Insert'
@@ -194,23 +194,23 @@ pre. Example: enable Gnome-like tab switching
     setKeys(keys)
 
 
-*TermitMenuItem* - table for menuitems.
+*HermitMenuItem* - table for menuitems.
 
 * accel - accelerator for menuitem. String with keybinding
 * action - lua-function to execute when item activated
 * name - name for menuitem
 
 
-*TermitOptions* - table with termit options.
+*HermitOptions* - table with hermit options.
 
 * allowChangingTitle - auto change title (similar to xterm)
 * audibleBell - enables audible bell
 * backgroundColor - background color
-* backspaceBinding - reaction on backspace key (one of TermitEraseBinding)
+* backspaceBinding - reaction on backspace key (one of HermitEraseBinding)
 * colormap - array with 8 or 16 or 24 colors
-* cursorBlinkMode - cursor blink mode (one of TermitCursorBlinkMode)
-* cursorShape - cursor shape (one of TermitCursorShape)
-* deleteBinding - reaction on delete key (one of TermitEraseBinding)
+* cursorBlinkMode - cursor blink mode (one of HermitCursorBlinkMode)
+* cursorShape - cursor shape (one of HermitCursorShape)
+* deleteBinding - reaction on delete key (one of HermitEraseBinding)
 * encoding - default encoding
 * fillTabbar - expand tabs' titles to fill whole tabbar
 * font - font name
@@ -224,20 +224,20 @@ pre. Example: enable Gnome-like tab switching
 * showBorder - show notebook border
 * hideSingleTab - hide tabbar when only 1 tab present
 * imageFile - path to image to be set on the background
-* matches - table with items of TermitMatch type
+* matches - table with items of HermitMatch type
 * scrollbackLines - the length of scrollback buffer
 * setStatusbar - lua function to generate new statusbar message
 * showScrollbar - display scrollbar
 * tabName - default tab name
 * tabPos - tabbar position (Top, Bottom, Left, Right)
-* tabs - table with items of TermitTabInfo type
+* tabs - table with items of HermitTabInfo type
 * transparency - use transparency level [0,1]
 * visibleBell - enables visible bell
-* urgencyOnBell - set WM-hint 'urgent' on termit window when bell
+* urgencyOnBell - set WM-hint 'urgent' on hermit window when bell
 * wordChars - word characters (double click selects word)
 
 
-*TermitTabInfo* - table with tab settings:
+*HermitTabInfo* - table with tab settings:
 
 * command
 * encoding
@@ -255,7 +255,7 @@ h4. Globals
 
 h4. Bugs
 
-After start sometimes there is black screen. Resizing termit window helps.
+After start sometimes there is black screen. Resizing hermit window helps.
 
 In options table 'tabs' field should be the last one. When loading all settings are applied in the same order as they are set in options table. So if you set tabs and only then colormap, these tabs would have default colormap.
 

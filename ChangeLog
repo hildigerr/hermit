@@ -1,3 +1,5 @@
+version 3.0.0
+	Renamed hermit, now a true fork of termit.
 	added 'apply to all tabs' in preferences dialog
 	new options:
 		cursorBlinkMode, cursorShape,

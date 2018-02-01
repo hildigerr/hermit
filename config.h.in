@@ -1,30 +1,31 @@
 /*  Copyright (C) 2007-2010, Evgeny Ratnikov
+    Copyright (C) 2018, Roberto Vergaray
 
-    This file is part of termit.
-    termit is free software: you can redistribute it and/or modify
+    This file is part of hermit, forked from termit.
+    hermit is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 
     as published by the Free Software Foundation.
-    termit is distributed in the hope that it will be useful,
+    hermit is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with termit. If not, see <http://www.gnu.org/licenses/>.*/
+    along with hermit. If not, see <http://www.gnu.org/licenses/>.*/
 /* Gettext locale dir */
-#define LOCALEDIR "${TERMIT_LOCALE_DIR}"
+#define LOCALEDIR "${HERMIT_LOCALE_DIR}"
 
 /* Name of package */
-#define PACKAGE "${TERMIT_PACKAGE}"
+#define PACKAGE "${HERMIT_PACKAGE}"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "${TERMIT_PACKAGE_BUGREPORT}"
+#define PACKAGE_BUGREPORT "${HERMIT_PACKAGE_BUGREPORT}"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "${TERMIT_PACKAGE_NAME}"
+#define PACKAGE_NAME "${HERMIT_PACKAGE_NAME}"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "${TERMIT_PACKAGE_STRING}"
+#define PACKAGE_STRING "${HERMIT_PACKAGE_STRING}"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "${TERMIT_PACKAGE_VERSION}"
+#define PACKAGE_VERSION "${HERMIT_PACKAGE_VERSION}"
 

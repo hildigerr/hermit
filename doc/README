@@ -1,4 +1,4 @@
-            Termit
+            Hermit
 
     Simple terminal emulator based on vte library, extensible via lua.
 
@@ -8,7 +8,7 @@
         * sessions
         * configurable keybindings
         * embedded Lua 
-    Configuration can be changed via $HOME/.config/termit/rc.lua file (example is provided).
+    Configuration can be changed via $HOME/.config/hermit/rc.lua file (example is provided).
     
     Command-line arguments:
         * --version (-v) - prints version info

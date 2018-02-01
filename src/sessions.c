@@ -1,15 +1,16 @@
 /*  Copyright (C) 2007-2010, Evgeny Ratnikov
+    Copyright (C) 2018, Roberto Vergaray
 
-    This file is part of termit.
-    termit is free software: you can redistribute it and/or modify
+    This file is part of hermit, forked from termit.
+    hermit is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 
     as published by the Free Software Foundation.
-    termit is distributed in the hope that it will be useful,
+    hermit is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with termit. If not, see <http://www.gnu.org/licenses/>.*/
+    along with hermit. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <errno.h>
 #include <sys/stat.h>
@@ -77,31 +78,31 @@ static gboolean parse_mkdir_path(const gchar *path, gint mode)
     return ret;
 }
 
-void termit_init_sessions()
+void hermit_init_sessions()
 {
     gchar *fullPath;
     const gchar *dataHome = g_getenv("XDG_DATA_HOME");
     if (dataHome)
-        fullPath = g_strdup_printf("%s/termit", dataHome);
+        fullPath = g_strdup_printf("%s/hermit", dataHome);
     else
-        fullPath = g_strdup_printf("%s/.local/share/termit", g_getenv("HOME"));
+        fullPath = g_strdup_printf("%s/.local/share/hermit", g_getenv("HOME"));
     TRACE("%s %s", __FUNCTION__, fullPath);
     if (!parse_mkdir_path(fullPath, 0700))
         g_message(_("Unable to create directory '%s': %s"), fullPath, g_strerror(errno));
     g_free(fullPath);
 }
 
-void termit_load_session(const gchar* sessionFile)
+void hermit_load_session(const gchar* sessionFile)
 {
     TRACE("loading sesions from %s", sessionFile);
     int s = luaL_dofile(L, sessionFile);
-    termit_lua_report_error(__FILE__, __LINE__, s);
+    hermit_lua_report_error(__FILE__, __LINE__, s);
 }
 
 /**
  * saves session as lua-script
  * */
-void termit_save_session(const gchar* sessionFile)
+void hermit_save_session(const gchar* sessionFile)
 {
     TRACE("saving session to file %s", sessionFile);
     FILE* fd = g_fopen(sessionFile, "w");
@@ -110,12 +111,12 @@ void termit_save_session(const gchar* sessionFile)
         return;
     }
 
-    guint pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(termit.notebook));
+    guint pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(hermit.notebook));
 
     guint i = 0;
     for (; i < pages; ++i) {
-        TERMIT_GET_TAB_BY_INDEX(pTab, i, continue);
-        gchar* working_dir = termit_get_pid_dir(pTab->pid);
+        HERMIT_GET_TAB_BY_INDEX(pTab, i, continue);
+        gchar* working_dir = hermit_get_pid_dir(pTab->pid);
         gchar* groupName = g_strdup_printf("tab%d", i);
         g_fprintf(fd, "%s = {}\n", groupName);
         g_fprintf(fd, "%s.title = \"%s\"\n", groupName, gtk_label_get_text(GTK_LABEL(pTab->tab_name)));
@@ -129,21 +130,21 @@ void termit_save_session(const gchar* sessionFile)
         g_object_get_property(G_OBJECT(pTab->vte), "backspace-binding", &val);
         VteTerminalEraseBinding eb = g_value_get_enum(&val);
         if (eb != VTE_ERASE_AUTO) {
-            g_fprintf(fd, "%s.backspaceBinding = \"%s\"\n", groupName, termit_erase_binding_to_string(eb));
+            g_fprintf(fd, "%s.backspaceBinding = \"%s\"\n", groupName, hermit_erase_binding_to_string(eb));
         }
         g_value_unset(&val);
         g_value_init(&val, g_type_from_name("VteTerminalEraseBinding"));
         g_object_get_property(G_OBJECT(pTab->vte), "delete-binding", &val);
         eb = g_value_get_enum(&val);
         if (eb != VTE_ERASE_AUTO) {
-            g_fprintf(fd, "%s.deleteBinding = \"%s\"\n", groupName, termit_erase_binding_to_string(eb));
+            g_fprintf(fd, "%s.deleteBinding = \"%s\"\n", groupName, hermit_erase_binding_to_string(eb));
         }
         g_value_unset(&val);
         if (pTab->cursor_blink_mode != VTE_CURSOR_BLINK_SYSTEM) {
-            g_fprintf(fd, "%s.cursorBlinkMode = \"%s\"\n", groupName, termit_cursor_blink_mode_to_string(pTab->cursor_blink_mode));
+            g_fprintf(fd, "%s.cursorBlinkMode = \"%s\"\n", groupName, hermit_cursor_blink_mode_to_string(pTab->cursor_blink_mode));
         }
         if (pTab->cursor_shape != VTE_CURSOR_SHAPE_BLOCK) {
-            g_fprintf(fd, "%s.cursorShape = \"%s\"\n", groupName, termit_cursor_shape_to_string(pTab->cursor_shape));
+            g_fprintf(fd, "%s.cursorShape = \"%s\"\n", groupName, hermit_cursor_shape_to_string(pTab->cursor_shape));
         }
         g_fprintf(fd, "openTab(%s)\n\n", groupName);
         g_free(groupName);

@@ -1,4 +1,5 @@
 # Copyright (C) 2007-2010, Evgeny Ratnikov
+# Copyright (C) 2018, Roberto Vergaray
 #
 # This file is part of termit.
 # termit is free software: you can redistribute it and/or modify
@@ -12,7 +13,7 @@
 # along with termit. If not, see <http://www.gnu.org/licenses/>.
 
 # Slackware SlackBuild
-CONFIGURE_FILE(termit.SlackBuild.in ${TERMIT_SOURCE_DIR}/utils/termit.SlackBuild @ONLY)
+CONFIGURE_FILE(termit.SlackBuild.in ${HERMIT_SOURCE_DIR}/utils/termit.SlackBuild @ONLY)
 # Fedora spec
-CONFIGURE_FILE(termit.spec.in ${TERMIT_SOURCE_DIR}/utils/termit.spec @ONLY)
+CONFIGURE_FILE(termit.spec.in ${HERMIT_SOURCE_DIR}/utils/termit.spec @ONLY)
 
