@@ -95,6 +95,16 @@ static gboolean dlg_set_visible_bell(GtkToggleButton *btn, gpointer user_data)
     termit_tab_set_visible_bell(pTab, value);
     return FALSE;
 }
+static gboolean dlg_set_apply_to_all_tabs(GtkToggleButton *btn, gpointer user_data)
+{
+    if (!user_data) {
+        ERROR("user_data is NULL");
+        return FALSE;
+    }
+    gboolean* flag = (gboolean*)user_data;
+    *flag = gtk_toggle_button_get_active(btn);
+    return FALSE;
+}
 
 struct TermitDlgHelper
 {
@@ -114,6 +124,7 @@ struct TermitDlgHelper
     GtkWidget* scale_transparency;
     GtkWidget* audible_bell;
     GtkWidget* visible_bell;
+    GtkWidget* btn_apply_to_all_tabs;
 };
 
 static struct TermitDlgHelper* termit_dlg_helper_new(struct TermitTab* pTab)
@@ -228,6 +239,7 @@ void termit_preferences_dialog(struct TermitTab *pTab)
     hlp->widget = widget; \
     row++;
 
+    gboolean apply_to_all_tabs_flag = FALSE;
     GtkWidget* entry_title = gtk_entry_new();
     guint row = 0;
     { // tab title
@@ -292,7 +304,11 @@ void termit_preferences_dialog(struct TermitTab *pTab)
     g_signal_connect(visible_bell, "toggled", G_CALLBACK(dlg_set_visible_bell), pTab);
     TERMIT_PREFERENCE_ROW(_("Visible bell"), visible_bell);
 
-    // TODO: apply to all tabs
+    // apply to al tabs
+    GtkWidget* btn_apply_to_all_tabs = gtk_check_button_new();
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(btn_apply_to_all_tabs), FALSE);
+    g_signal_connect(btn_apply_to_all_tabs, "toggled", G_CALLBACK(dlg_set_apply_to_all_tabs), &apply_to_all_tabs_flag);
+    TERMIT_PREFERENCE_ROW(_("Apply to all tabs"), btn_apply_to_all_tabs);
 
     GtkWidget* btn_restore = gtk_button_new_from_stock(GTK_STOCK_REVERT_TO_SAVED);
     g_signal_connect(G_OBJECT(btn_restore), "clicked", G_CALLBACK(dlg_restore_defaults), hlp);
@@ -304,6 +320,20 @@ void termit_preferences_dialog(struct TermitTab *pTab)
     if (gtk_dialog_run(GTK_DIALOG(dialog)) != GTK_RESPONSE_OK) {
         dlg_set_tab_default_values(pTab, hlp);
     } else {
+        if (apply_to_all_tabs_flag) {
+            gint page_num = gtk_notebook_get_n_pages(GTK_NOTEBOOK(termit.notebook));
+            gint i=0;
+            for (; i<page_num; ++i) {
+                TERMIT_GET_TAB_BY_INDEX(pTab, i, continue);
+                dlg_set_font(GTK_FONT_BUTTON(btn_font), pTab);
+                dlg_set_foreground(GTK_COLOR_BUTTON(btn_foreground), pTab);
+                dlg_set_background(GTK_COLOR_BUTTON(btn_background), pTab);
+                dlg_set_transparency(GTK_SPIN_BUTTON(scale_transparency), pTab);
+                dlg_set_image_file(GTK_FILE_CHOOSER_BUTTON(btn_image_file), pTab);
+                dlg_set_audible_bell(GTK_TOGGLE_BUTTON(audible_bell), pTab);
+                dlg_set_visible_bell(GTK_TOGGLE_BUTTON(visible_bell), pTab);
+            }
+        }
         // insane title flag
         if (pTab->title ||
                 (!pTab->title &&
