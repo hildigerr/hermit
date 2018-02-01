@@ -245,7 +245,7 @@ void termit_create_popup_menu()
     gtk_menu_shell_append(GTK_MENU_SHELL(termit.menu), mi_exit);
 
     // User popup menus
-    TRACE("user_popup_menus->len=%zd", configs.user_popup_menus->len);
+    TRACE("user_popup_menus->len=%d", configs.user_popup_menus->len);
     guint j = 0;
     for (; j<configs.user_popup_menus->len; ++j) {
         struct UserMenu* um = &g_array_index(configs.user_popup_menus, struct UserMenu, j);
@@ -254,7 +254,7 @@ void termit_create_popup_menu()
         GtkWidget *utils_menu = gtk_menu_new();
         gtk_menu_item_set_submenu(GTK_MENU_ITEM(mi_util), utils_menu);
 
-        TRACE("%s items->len=%zd", um->name, um->items->len);
+        TRACE("%s items->len=%d", um->name, um->items->len);
         guint i = 0;
         for (; i<um->items->len; i++) {
             struct UserMenuItem* umi = &g_array_index(um->items, struct UserMenuItem, i);
@@ -295,8 +295,9 @@ static void termit_init(const gchar* initFile, gchar** argv)
     pack_widgets();
     termit_create_popup_menu();
 
-    if (!configs.allow_changing_title)
+    if (!configs.allow_changing_title) {
         termit_set_window_title(configs.default_window_title);
+    }
     gtk_notebook_set_show_border(GTK_NOTEBOOK(termit.notebook), configs.show_border);
 }
 
@@ -463,13 +464,14 @@ int main(int argc, char **argv)
     g_strfreev(cmdArgv);
     g_free(initFile);
 
+#if 0
     /**
      * dirty hack from gnome-terminal ;-)
      * F10 is used in many console apps, so we change global Gtk setting for termit
      * */
     gtk_settings_set_string_property(gtk_settings_get_default(), "gtk-menu-bar-accel",
         "<Shift><Control><Mod1><Mod2><Mod3><Mod4><Mod5>F10", "termit");
-
+#endif // FIXME
     g_signal_connect(G_OBJECT (termit.main_window), "delete_event", G_CALLBACK (termit_on_delete_event), NULL);
     g_signal_connect(G_OBJECT (termit.main_window), "destroy", G_CALLBACK (termit_on_destroy), NULL);
     g_signal_connect(G_OBJECT (termit.main_window), "key-press-event", G_CALLBACK(termit_on_key_press), NULL);

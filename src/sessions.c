@@ -114,7 +114,7 @@ void termit_save_session(const gchar* sessionFile)
 
     guint i = 0;
     for (; i < pages; ++i) {
-        TERMIT_GET_TAB_BY_INDEX(pTab, i);
+        TERMIT_GET_TAB_BY_INDEX(pTab, i, continue);
         gchar* working_dir = termit_get_pid_dir(pTab->pid);
         gchar* groupName = g_strdup_printf("tab%d", i);
         g_fprintf(fd, "%s = {}\n", groupName);
@@ -139,6 +139,12 @@ void termit_save_session(const gchar* sessionFile)
             g_fprintf(fd, "%s.deleteBinding = \"%s\"\n", groupName, termit_erase_binding_to_string(eb));
         }
         g_value_unset(&val);
+        if (pTab->cursor_blink_mode != VTE_CURSOR_BLINK_SYSTEM) {
+            g_fprintf(fd, "%s.cursorBlinkMode = \"%s\"\n", groupName, termit_cursor_blink_mode_to_string(pTab->cursor_blink_mode));
+        }
+        if (pTab->cursor_shape != VTE_CURSOR_SHAPE_BLOCK) {
+            g_fprintf(fd, "%s.cursorShape = \"%s\"\n", groupName, termit_cursor_shape_to_string(pTab->cursor_shape));
+        }
         g_fprintf(fd, "openTab(%s)\n\n", groupName);
         g_free(groupName);
         g_free(working_dir);

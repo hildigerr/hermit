@@ -59,6 +59,7 @@ void termit_config_get_string(gchar** opt, lua_State* ls, int index)
         *opt = g_strdup(lua_tostring(ls, index));
     }
 }
+
 void termit_config_get_double(double* opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isnumber(ls, index))
@@ -70,11 +71,13 @@ void termit_config_getuint(guint* opt, lua_State* ls, int index)
     if (!lua_isnil(ls, index) && lua_isnumber(ls, index))
         *opt = lua_tointeger(ls, index);
 }
+
 void termit_config_get_boolean(gboolean* opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isboolean(ls, index))
         *opt = lua_toboolean(ls, index);
 }
+
 void termit_config_get_function(int* opt, lua_State* ls, int index)
 {
     if (!lua_isnil(ls, index) && lua_isfunction(ls, index)) {
@@ -82,6 +85,7 @@ void termit_config_get_function(int* opt, lua_State* ls, int index)
         lua_pushnil(ls);
     }
 }
+
 void termit_config_get_color(GdkColor** opt, lua_State* ls, int index)
 {
     gchar* color_str = NULL;
@@ -95,11 +99,28 @@ void termit_config_get_color(GdkColor** opt, lua_State* ls, int index)
     }
     g_free(color_str);
 }
+
 void termit_config_get_erase_binding(VteTerminalEraseBinding* opt, lua_State* ls, int index)
 {
     gchar* str = NULL;
     termit_config_get_string(&str, ls, index);
     *opt = termit_erase_binding_from_string(str);
+    g_free(str);
+}
+
+void termit_config_get_cursor_blink_mode(VteTerminalCursorBlinkMode* opt, lua_State* ls, int index)
+{
+    gchar* str = NULL;
+    termit_config_get_string(&str, ls, index);
+    *opt = termit_cursor_blink_mode_from_string(str);
+    g_free(str);
+}
+
+void termit_config_get_cursor_shape(VteTerminalCursorShape* opt, lua_State* ls, int index)
+{
+    gchar* str = NULL;
+    termit_config_get_string(&str, ls, index);
+    *opt = termit_cursor_shape_from_string(str);
     g_free(str);
 }
 
@@ -267,6 +288,10 @@ void termit_lua_options_loader(const gchar* name, lua_State* ls, int index, void
         termit_config_get_erase_binding(&(p_cfg->default_bksp), ls, index);
     else if (!strcmp(name, "deleteBinding"))
         termit_config_get_erase_binding(&(p_cfg->default_delete), ls, index);
+    else if (!strcmp(name, "cursorBlinkMode"))
+        termit_config_get_cursor_blink_mode(&(p_cfg->default_blink), ls, index);
+    else if (!strcmp(name, "cursorShape"))
+        termit_config_get_cursor_shape(&(p_cfg->default_shape), ls, index);
     else if (!strcmp(name, "colormap")) {
         termit_lua_load_colormap(ls, index, &configs.style.colors, &configs.style.colors_size);
     } else if (!strcmp(name, "matches")) {
@@ -292,7 +317,7 @@ void termit_lua_options_loader(const gchar* name, lua_State* ls, int index, void
             if (!configs.default_tabs) {
                 configs.default_tabs = g_array_new(FALSE, TRUE, sizeof(struct TabInfo));
             }
-            TRACE("tabs at index: %d tabs.size=%zd", index, configs.default_tabs->len);
+            TRACE("tabs at index: %d tabs.size=%d", index, configs.default_tabs->len);
             if (termit_lua_load_table(ls, tabsLoader, index, configs.default_tabs)
                     != TERMIT_LUA_TABLE_LOADER_OK) {
                 ERROR("openTab failed");
@@ -390,7 +415,7 @@ static void load_init(const gchar* initFile)
 
 int termit_lua_fill_tab(int tab_index, lua_State* ls)
 {
-    TERMIT_GET_TAB_BY_INDEX2(pTab, tab_index, 0);
+    TERMIT_GET_TAB_BY_INDEX(pTab, tab_index, return 0);
     lua_newtable(ls);
     TERMIT_TAB_ADD_STRING("title", pTab->title);
     TERMIT_TAB_ADD_STRING("command", pTab->argv[0]);

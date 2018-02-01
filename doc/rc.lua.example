@@ -1,3 +1,6 @@
+-- Example file with lots of options.
+-- You can test with with this command: termit --init rc.lua.example
+
 require("termit.colormaps")
 require("termit.utils")
 
@@ -5,7 +8,7 @@ defaults = {}
 defaults.windowTitle = 'Termit'
 defaults.tabName = 'Terminal'
 defaults.encoding = 'UTF-8'
-defaults.wordChars = '+-AA-Za-z0-9,./?%&#:_~'
+defaults.wordChars = 'AA-Za-z0-9'
 defaults.font = 'Terminus 12'
 --defaults.foregroundColor = 'gray'
 --defaults.backgroundColor = 'black'
@@ -16,13 +19,15 @@ defaults.hideSingleTab = false
 defaults.hideTabbar = false
 defaults.showBorder = true
 defaults.hideMenubar = false
-defailts.topMenu = false
+defaults.topMenu = false
 defaults.fillTabbar = true
 defaults.scrollbackLines = 4096
 defaults.geometry = '80x24'
 defaults.allowChangingTitle = false
 --defaults.backspaceBinding = 'AsciiBksp'
 --defaults.deleteBinding = 'AsciiDel'
+defaults.cursorBlinkMode = 'BlinkOff'
+defaults.cursorShape = 'Ibeam'
 defaults.tabPos = 'Right'
 defaults.setStatusbar = function (tabInd)
     tab = tabs[tabInd]
@@ -33,8 +38,8 @@ defaults.setStatusbar = function (tabInd)
 end
 defaults.colormap = termit.colormaps.delicate
 defaults.matches = {['http[^ ]+'] = function (url) print('Matching url: '..url) end}
---defaults.tabs = {{title = 'Test new tab 1'; workingDir = '/tmp'};
-    --{title = 'Test new tab 2'; workingDir = '/tmp'}}
+defaults.tabs = {{title = 'Test new tab 1'; workingDir = '/tmp'};
+    {title = 'Test new tab 2'; workingDir = '/tmp'}}
 setOptions(defaults)
 
 bindKey('Ctrl-Page_Up', prevTab)
@@ -95,7 +100,7 @@ table.insert(userMenu, mi)
 
 function changeTabFontSize(delta)
     tab = tabs[currentTabIndex()]
-    setTabFont(string.sub(tab.font, 1, string.find(tab.font, '%d+$') - 1)..(tab.fontSize + delta))
+    setTabFont(string.sub(tab.font, 1, string.find(tab.font, '[%d.]+$') - 1)..(tostring(tab.fontSize + delta):gsub(',', '.')))
 end
 
 table.insert(userMenu, {name='Increase font size', action=function () changeTabFontSize(1) end})

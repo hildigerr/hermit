@@ -95,6 +95,16 @@ static gboolean dlg_set_visible_bell(GtkToggleButton *btn, gpointer user_data)
     termit_tab_set_visible_bell(pTab, value);
     return FALSE;
 }
+static gboolean dlg_set_apply_to_all_tabs(GtkToggleButton *btn, gpointer user_data)
+{
+    if (!user_data) {
+        ERROR("user_data is NULL");
+        return FALSE;
+    }
+    gboolean* flag = (gboolean*)user_data;
+    *flag = gtk_toggle_button_get_active(btn);
+    return FALSE;
+}
 
 struct TermitDlgHelper
 {
@@ -114,6 +124,7 @@ struct TermitDlgHelper
     GtkWidget* scale_transparency;
     GtkWidget* audible_bell;
     GtkWidget* visible_bell;
+    GtkWidget* btn_apply_to_all_tabs;
 };
 
 static struct TermitDlgHelper* termit_dlg_helper_new(struct TermitTab* pTab)
@@ -228,100 +239,101 @@ void termit_preferences_dialog(struct TermitTab *pTab)
     hlp->widget = widget; \
     row++;
 
+    gboolean apply_to_all_tabs_flag = FALSE;
     GtkWidget* entry_title = gtk_entry_new();
     guint row = 0;
     { // tab title
         gtk_entry_set_text(GTK_ENTRY(entry_title), hlp->tab_title);
         TERMIT_PREFERENCE_ROW(_("Title"), entry_title);
     }
-    
-    { // font selection
-        GtkWidget* btn_font = gtk_font_button_new_with_font(pTab->style.font_name);
-        g_signal_connect(btn_font, "font-set", G_CALLBACK(dlg_set_font), pTab);
 
-        TERMIT_PREFERENCE_ROW(_("Font"), btn_font);
+    // font selection
+    GtkWidget* btn_font = gtk_font_button_new_with_font(pTab->style.font_name);
+    g_signal_connect(btn_font, "font-set", G_CALLBACK(dlg_set_font), pTab);
+    TERMIT_PREFERENCE_ROW(_("Font"), btn_font);
+
+    // foreground
+    GtkWidget* btn_foreground = (pTab->style.foreground_color)
+        ? gtk_color_button_new_with_color(pTab->style.foreground_color)
+        : gtk_color_button_new();
+    g_signal_connect(btn_foreground, "color-set", G_CALLBACK(dlg_set_foreground), pTab);
+    TERMIT_PREFERENCE_ROW(_("Foreground"), btn_foreground);
+
+    // background
+    GtkWidget* btn_background = (pTab->style.background_color)
+        ? gtk_color_button_new_with_color(pTab->style.background_color)
+        : gtk_color_button_new();
+    g_signal_connect(btn_background, "color-set", G_CALLBACK(dlg_set_background), pTab);
+    TERMIT_PREFERENCE_ROW(_("Background"), btn_background);
+
+    // background image
+    GtkWidget* btn_image_file = gtk_file_chooser_button_new(pTab->style.image_file,
+        GTK_FILE_CHOOSER_ACTION_OPEN);
+    GtkFileFilter* filter = gtk_file_filter_new();
+    gtk_file_filter_set_name(filter, _("images"));
+    gtk_file_filter_add_mime_type(filter, "image/*");
+    if (pTab->style.image_file) {
+        gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(btn_image_file), pTab->style.image_file);
     }
-    
-    { // foreground
-        GtkWidget* btn_foreground = (pTab->style.foreground_color)
-            ? gtk_color_button_new_with_color(pTab->style.foreground_color)
-            : gtk_color_button_new();
-        g_signal_connect(btn_foreground, "color-set", G_CALLBACK(dlg_set_foreground), pTab);
-    
-        TERMIT_PREFERENCE_ROW(_("Foreground"), btn_foreground);
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(btn_image_file), filter);
+    g_signal_connect(btn_image_file, "file-set", G_CALLBACK(dlg_set_image_file), pTab);
+    g_signal_connect(btn_image_file, "key-press-event", G_CALLBACK(dlg_clear_image_file), pTab);
+    GtkWidget* btn_switch_image_file = gtk_check_button_new_with_label(_("Background image"));
+    if (pTab->style.image_file) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(btn_switch_image_file), TRUE);
     }
-    
-    { // background
-        GtkWidget* btn_background = (pTab->style.background_color)
-            ? gtk_color_button_new_with_color(pTab->style.background_color)
-            : gtk_color_button_new();
-        g_signal_connect(btn_background, "color-set", G_CALLBACK(dlg_set_background), pTab);
-        
-        TERMIT_PREFERENCE_ROW(_("Background"), btn_background);
-    }
-    
-    { // background image
-        GtkWidget* btn_image_file = gtk_file_chooser_button_new(pTab->style.image_file,
-            GTK_FILE_CHOOSER_ACTION_OPEN);
-        GtkFileFilter* filter = gtk_file_filter_new();
-        gtk_file_filter_set_name(filter, _("images"));
-        gtk_file_filter_add_mime_type(filter, "image/*");
-        if (pTab->style.image_file) {
-            gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(btn_image_file), pTab->style.image_file);
-        }
-        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(btn_image_file), filter);
-        g_signal_connect(btn_image_file, "file-set", G_CALLBACK(dlg_set_image_file), pTab);
-        g_signal_connect(btn_image_file, "key-press-event", G_CALLBACK(dlg_clear_image_file), pTab);
+    /*g_signal_connect(btn_switch_image_file, "toggled", G_CALLBACK(dlg_switch_image_file), btn_image_file);*/
+    /*TERMIT_PREFERENCE_ROW2(btn_switch_image_file, btn_image_file);*/
+    TERMIT_PREFERENCE_ROW(_("Image"), btn_image_file);
 
-        GtkWidget* btn_switch_image_file = gtk_check_button_new_with_label(_("Background image"));
-        if (pTab->style.image_file) {
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(btn_switch_image_file), TRUE);
-        }
-        /*g_signal_connect(btn_switch_image_file, "toggled", G_CALLBACK(dlg_switch_image_file), btn_image_file);*/
+    // transparency
+    GtkWidget* scale_transparency = gtk_spin_button_new_with_range(0, 1, 0.05);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(scale_transparency), pTab->style.transparency);
+    g_signal_connect(scale_transparency, "value-changed", G_CALLBACK(dlg_set_transparency), pTab);
+    TERMIT_PREFERENCE_ROW(_("Transparency"), scale_transparency);
 
-        /*TERMIT_PREFERENCE_ROW2(btn_switch_image_file, btn_image_file);*/
-        TERMIT_PREFERENCE_ROW(_("Image"), btn_image_file);
-    }
+    // audible_bell
+    GtkWidget* audible_bell = gtk_check_button_new();
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(audible_bell), pTab->audible_bell);
+    g_signal_connect(audible_bell, "toggled", G_CALLBACK(dlg_set_audible_bell), pTab);
+    TERMIT_PREFERENCE_ROW(_("Audible bell"), audible_bell);
 
-    { // transparency
-        GtkWidget* scale_transparency = gtk_spin_button_new_with_range(0, 1, 0.05);
-        gtk_spin_button_set_value(GTK_SPIN_BUTTON(scale_transparency), pTab->style.transparency);
-        g_signal_connect(scale_transparency, "value-changed", G_CALLBACK(dlg_set_transparency), pTab);
+    // visible_bell
+    GtkWidget* visible_bell = gtk_check_button_new();
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(visible_bell), pTab->visible_bell);
+    g_signal_connect(visible_bell, "toggled", G_CALLBACK(dlg_set_visible_bell), pTab);
+    TERMIT_PREFERENCE_ROW(_("Visible bell"), visible_bell);
 
-        TERMIT_PREFERENCE_ROW(_("Transparency"), scale_transparency);
-    }
+    // apply to al tabs
+    GtkWidget* btn_apply_to_all_tabs = gtk_check_button_new();
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(btn_apply_to_all_tabs), FALSE);
+    g_signal_connect(btn_apply_to_all_tabs, "toggled", G_CALLBACK(dlg_set_apply_to_all_tabs), &apply_to_all_tabs_flag);
+    TERMIT_PREFERENCE_ROW(_("Apply to all tabs"), btn_apply_to_all_tabs);
 
-    { // audible_bell
-        GtkWidget* audible_bell = gtk_check_button_new();
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(audible_bell), pTab->audible_bell);
-        g_signal_connect(audible_bell, "toggled", G_CALLBACK(dlg_set_audible_bell), pTab);
+    GtkWidget* btn_restore = gtk_button_new_from_stock(GTK_STOCK_REVERT_TO_SAVED);
+    g_signal_connect(G_OBJECT(btn_restore), "clicked", G_CALLBACK(dlg_restore_defaults), hlp);
+    gtk_table_attach(GTK_TABLE(dlg_table), btn_restore, 1, 2, row, row + 1, 0, 0, 0, 0);
 
-        TERMIT_PREFERENCE_ROW(_("Audible bell"), audible_bell);
-    }
-
-    { // visible_bell
-        GtkWidget* visible_bell = gtk_check_button_new();
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(visible_bell), pTab->visible_bell);
-        g_signal_connect(visible_bell, "toggled", G_CALLBACK(dlg_set_visible_bell), pTab);
-
-        TERMIT_PREFERENCE_ROW(_("Visible bell"), visible_bell);
-    }
-
-    {
-        GtkWidget* btn_restore = gtk_button_new_from_stock(GTK_STOCK_REVERT_TO_SAVED);
-        g_signal_connect(G_OBJECT(btn_restore), "clicked", G_CALLBACK(dlg_restore_defaults), hlp);
-        gtk_table_attach(GTK_TABLE(dlg_table), btn_restore, 1, 2, row, row + 1, 0, 0, 0, 0);
-    }
     gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), dlg_table);
 
-    // TODO: apply to all tabs
-    // TODO: color palette
-    // TODO: save style - choose from saved (murphy, delek, etc.)
-    
     gtk_widget_show_all(dialog);
     if (gtk_dialog_run(GTK_DIALOG(dialog)) != GTK_RESPONSE_OK) {
         dlg_set_tab_default_values(pTab, hlp);
     } else {
+        if (apply_to_all_tabs_flag) {
+            gint page_num = gtk_notebook_get_n_pages(GTK_NOTEBOOK(termit.notebook));
+            gint i=0;
+            for (; i<page_num; ++i) {
+                TERMIT_GET_TAB_BY_INDEX(pTab, i, continue);
+                dlg_set_font(GTK_FONT_BUTTON(btn_font), pTab);
+                dlg_set_foreground(GTK_COLOR_BUTTON(btn_foreground), pTab);
+                dlg_set_background(GTK_COLOR_BUTTON(btn_background), pTab);
+                dlg_set_transparency(GTK_SPIN_BUTTON(scale_transparency), pTab);
+                dlg_set_image_file(GTK_FILE_CHOOSER_BUTTON(btn_image_file), pTab);
+                dlg_set_audible_bell(GTK_TOGGLE_BUTTON(audible_bell), pTab);
+                dlg_set_visible_bell(GTK_TOGGLE_BUTTON(visible_bell), pTab);
+            }
+        }
         // insane title flag
         if (pTab->title ||
                 (!pTab->title &&
