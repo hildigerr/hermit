@@ -2,7 +2,7 @@
 set -e
 
 if [ "$1" = "remove" ]; then
-   update-alternatives --remove x-terminal-emulator /usr/bin/termit
+   update-alternatives --remove x-terminal-emulator /usr/bin/hermit
 fi
 
 #DEBHELPER#

@@ -22,7 +22,8 @@ msgid "Apply to all tabs"
 msgstr ""
 
 #: src/termit_preferences.c:300
-msgid "Audible bell"
+#, fuzzy
+msgid "Audible beep"
 msgstr "Głośny dzwonek"
 
 #: src/termit_preferences.c:268
@@ -110,7 +111,8 @@ msgid "Unable to create directory '%s': %s"
 msgstr "Nie można utworzyć katalogu '%s': %s"
 
 #: src/termit_preferences.c:306
-msgid "Visible bell"
+#, fuzzy
+msgid "Visible beep"
 msgstr "Widoczny dzwonek"
 
 #: src/termit_preferences.c:274

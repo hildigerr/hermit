@@ -314,13 +314,13 @@ void hermit_for_each_visible_row(int lua_callback)
 void hermit_tab_set_audible_beep(struct HermitTab* pTab, gboolean audible_beep)
 {
     pTab->audible_beep = audible_beep;
-    vte_terminal_set_audible_beep(VTE_TERMINAL(pTab->vte), audible_beep);
+    vte_terminal_set_audible_bell(VTE_TERMINAL(pTab->vte), audible_beep);
 }
 
 void hermit_tab_set_visible_beep(struct HermitTab* pTab, gboolean visible_beep)
 {
     pTab->visible_beep = visible_beep;
-    vte_terminal_set_visible_beep(VTE_TERMINAL(pTab->vte), visible_beep);
+    vte_terminal_set_visible_bell(VTE_TERMINAL(pTab->vte), visible_beep);
 }
 
 void hermit_tab_set_pos(struct HermitTab* pTab, int newPos)

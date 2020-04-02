@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-DOCDIR=debian/termit/usr/share/doc/termit
+DOCDIR=debian/hermit/usr/share/doc/hermit
 
 %:
 	dh $@

@@ -17,7 +17,7 @@ msgid "Apply to all tabs"
 msgstr ""
 
 #: src/termit_preferences.c:300
-msgid "Audible bell"
+msgid "Audible beep"
 msgstr ""
 
 #: src/termit_preferences.c:268
@@ -106,7 +106,7 @@ msgid "Unable to create directory '%s': %s"
 msgstr "디렉토리를 만들 수 없습니다 '%s': %s"
 
 #: src/termit_preferences.c:306
-msgid "Visible bell"
+msgid "Visible beep"
 msgstr ""
 
 #: src/termit_preferences.c:274

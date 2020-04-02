@@ -5,7 +5,7 @@ Maintainer: HildigerR Vergaray <moonsdad@gmail.com>
 Uploaders: HildigerR Vergaray <moonsdad@gmail.com>
 Build-Depends: debhelper (>= 9), cmake, libgtk2.0-dev, libvte-dev, liblua5.3-dev
 Standards-Version: 3.9.5
-Homepage: https://github.com/moonsdad/termit
+Homepage: https://github.com/moonsdad/hermit
 
 Package: hermit
 Architecture: any

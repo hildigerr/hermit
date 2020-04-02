@@ -1,4 +1,4 @@
-hermit (3.0.2-0) xenial; urgency=medium
+hermit (3.0.2-3) xenial; urgency=medium
 
   * Semantic change to match signal: bell-->beep.
   * Don't replace termit.
