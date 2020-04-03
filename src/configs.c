@@ -180,7 +180,7 @@ void termit_configs_set_defaults()
     configs.hide_single_tab = FALSE;
     configs.show_scrollbar = TRUE;
     configs.fill_tabbar = FALSE;
-    configs.top_menu = FALSE;
+    configs.top_menu = TRUE;
     configs.hide_menubar = FALSE;
     configs.hide_tabbar = FALSE;
     configs.show_border = TRUE;
