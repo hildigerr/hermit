@@ -9,6 +9,7 @@ defaults = {}
 defaults.windowTitle = 'Termit'
 defaults.startMaximized = true
 defaults.hideTitlebarWhenMaximized = true
+defaults.tabCloseButton = true
 defaults.tabName = 'Terminal'
 defaults.encoding = 'UTF-8'
 defaults.wordCharExceptions = '- .,_/'

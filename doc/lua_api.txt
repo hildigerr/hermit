@@ -230,6 +230,7 @@ pre. Example: enable Gnome-like tab switching
 * showBorder - show notebook border
 * showScrollbar - display scrollbar
 * startMaximized - maximize window on start
+* tabCloseButton - add a close button to each tab
 * tabName - default tab name
 * tabPos - tabbar position (Top, Bottom, Left, Right)
 * tabs - table with items of TermitTabInfo type
