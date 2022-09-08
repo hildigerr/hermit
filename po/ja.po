@@ -34,7 +34,7 @@ msgid "Copy"
 msgstr ""
 
 #: src/termit.c:172 src/termit.c:225
-msgid "Delete"
+msgid "Close tab"
 msgstr ""
 
 #: src/termit.c:192
@@ -55,7 +55,7 @@ msgstr "前景"
 
 #. File menu
 #: src/termit.c:171 src/termit.c:224
-msgid "Open"
+msgid "New tab"
 msgstr ""
 
 #. Sessions menu
