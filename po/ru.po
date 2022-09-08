@@ -118,7 +118,7 @@ msgid "Unable to create directory '%s': %s"
 msgstr "Невозможно создать директорию '%s': %s"
 
 #: src/termit_preferences.c:212
-msgid "audible bell"
+msgid "Audible bell"
 msgstr ""
 
 #~ msgid "Bookmarks"

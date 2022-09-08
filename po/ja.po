@@ -113,7 +113,7 @@ msgstr "ディレクトリ '%s' が生成できません: %s"
 
 #: src/termit_preferences.c:212
 #, fuzzy
-msgid "audible bell"
+msgid "Audible bell"
 msgstr "可聴ベル"
 
 #~ msgid "Background image"

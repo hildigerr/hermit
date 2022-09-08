@@ -117,7 +117,7 @@ msgstr "No se puede crear el directorio '%s': %s."
 
 #: src/termit_preferences.c:212
 #, fuzzy
-msgid "audible bell"
+msgid "Audible bell"
 msgstr "Timbre audible"
 
 #~ msgid "Background image"

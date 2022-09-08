@@ -98,7 +98,7 @@ msgstr "Kan inte skapa mappen '%s': %s"
 
 #: src/termit_preferences.c:212
 #, fuzzy
-msgid "audible bell"
+msgid "Audible bell"
 msgstr "Ljudsignal"
 
 #~ msgid "Background image"

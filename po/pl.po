@@ -119,7 +119,7 @@ msgstr "Nie można utworzyć katalogu '%s': %s"
 
 #: src/termit_preferences.c:212
 #, fuzzy
-msgid "audible bell"
+msgid "Audible bell"
 msgstr "Głośny dzwonek"
 
 #~ msgid "Background image"

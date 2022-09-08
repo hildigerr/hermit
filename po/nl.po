@@ -113,5 +113,5 @@ msgid "Unable to create directory '%s': %s"
 msgstr "De map ‘%s’ kan niet worden aangemaakt: %s"
 
 #: src/termit_preferences.c:212
-msgid "audible bell"
+msgid "Audible bell"
 msgstr "Luide bel"

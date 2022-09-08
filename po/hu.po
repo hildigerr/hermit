@@ -119,7 +119,7 @@ msgstr "A könyvtár létrehozása sikertelen '%s': %s"
 
 #: src/termit_preferences.c:212
 #, fuzzy
-msgid "audible bell"
+msgid "Audible bell"
 msgstr "Hallható figyelmeztetés"
 
 #~ msgid "Background image"

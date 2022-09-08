@@ -119,7 +119,7 @@ msgstr "Konnte Verzeichnis '%s' nicht erstellen: %s"
 
 #: src/termit_preferences.c:212
 #, fuzzy
-msgid "audible bell"
+msgid "Audible bell"
 msgstr "Glocke"
 
 #~ msgid "Background image"
