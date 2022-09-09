@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Martintxo <martintxo@sindominio.net>\n"
+"PO-Revision-Date: 2022-09-08 22:22+0100\n"
+"Last-Translator: SwissalpS <Luke@SwissalpS.ws>\n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,12 @@ msgstr ""
 
 #: src/termit_preferences.c:218
 msgid "Apply to all tabs"
-msgstr ""
+msgstr "Aplicar a todas las pestañas"
+
+#: src/termit_preferences.c:212
+#, fuzzy
+msgid "Audible bell"
+msgstr "Timbre audible"
 
 #: src/termit_preferences.c:206
 msgid "Background"
@@ -31,13 +36,13 @@ msgstr "No se puede crear una nueva pestaña"
 msgid "Cannot parse command. Creating tab with shell"
 msgstr "El comando no se entiende. Creando una nueva pestaña con shell"
 
-#: src/termit.c:189 src/termit.c:228
-msgid "Copy"
-msgstr ""
-
 #: src/termit.c:172 src/termit.c:225
 msgid "Close tab"
-msgstr ""
+msgstr "Cerrar pestaña"
+
+#: src/termit.c:189 src/termit.c:228
+msgid "Copy"
+msgstr "Copiar"
 
 #: src/termit.c:192
 msgid "Edit"
@@ -58,7 +63,7 @@ msgstr "Frente"
 #. File menu
 #: src/termit.c:171 src/termit.c:224
 msgid "New tab"
-msgstr ""
+msgstr "Nueva pestaña"
 
 #. Sessions menu
 #: src/termit.c:204 src/callbacks.c:395
@@ -67,15 +72,15 @@ msgstr "Abrir sesión"
 
 #: src/termit.c:190 src/termit.c:229
 msgid "Paste"
-msgstr ""
+msgstr "Pegar"
 
 #: src/termit.c:188 src/termit.c:227 src/termit_preferences.c:166
 msgid "Preferences"
-msgstr ""
+msgstr "Preferencias"
 
 #: src/termit.c:173 src/termit.c:230
 msgid "Quit"
-msgstr ""
+msgstr "Salir"
 
 #: src/termit.c:205 src/callbacks.c:365
 msgid "Save session"
@@ -100,7 +105,7 @@ msgid ""
 "Close anyway?"
 msgstr ""
 "Hay varias pestañas abiertas.\n"
-"¿Cerrarlas todas?"
+"¿Cerrarlas todas igual?"
 
 #: src/callbacks.c:274 src/callbacks.c:285
 msgid "Tab name"
@@ -114,11 +119,6 @@ msgstr "Título"
 #, c-format
 msgid "Unable to create directory '%s': %s"
 msgstr "No se puede crear el directorio '%s': %s."
-
-#: src/termit_preferences.c:212
-#, fuzzy
-msgid "Audible bell"
-msgstr "Timbre audible"
 
 #~ msgid "Background image"
 #~ msgstr "Imagen de fondo"
