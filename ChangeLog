@@ -1,3 +1,4 @@
+	refactored several deprecated functions
 	rename lua_api.txt to md because it is markdown
 	new options:
 		topMenu, tabCloseButton

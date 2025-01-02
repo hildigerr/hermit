@@ -334,6 +334,24 @@ GtkWidget* termit_close_button(struct TermitTab* pTab)
     return button;
 }
 
+static void termit_on_spawn(VteTerminal* vte, GPid pid, GError* error, gpointer user_data)
+{
+    struct TermitTab* pTab = user_data;
+    if (pid == -1) {
+        return;
+    }
+    pTab->pid = pid;
+    TRACE("command=%s pid=%d", pTab->argv[0], pTab->pid);
+
+    g_signal_connect(G_OBJECT(pTab->vte), "bell", G_CALLBACK(termit_on_beep), pTab);
+    g_signal_connect(G_OBJECT(pTab->vte), "focus-in-event", G_CALLBACK(termit_on_focus), pTab);
+    g_signal_connect(G_OBJECT(pTab->vte), "window-title-changed", G_CALLBACK(termit_on_tab_title_changed), NULL);
+
+    pTab->onChildExitedHandlerId = g_signal_connect(G_OBJECT(pTab->vte), "child-exited", G_CALLBACK(termit_on_child_exited), NULL);
+    g_signal_connect_swapped(G_OBJECT(pTab->vte), "button-press-event", G_CALLBACK(termit_on_popup), NULL);
+
+}
+
 void termit_append_tab_with_details(const struct TabInfo* ti)
 {
     struct TermitTab* pTab = g_malloc0(sizeof(struct TermitTab));
@@ -392,6 +410,17 @@ void termit_append_tab_with_details(const struct TabInfo* ti)
     vte_terminal_set_cursor_shape(vte, pTab->cursor_shape);
     vte_terminal_search_set_wrap_around(vte, TRUE);
 
+    GError *cmd_err = NULL;
+    if (vte_terminal_set_encoding(vte, pTab->encoding, &cmd_err) != TRUE) {
+        ERROR("cannot set encoding (%s): %s", pTab->encoding, cmd_err->message);
+        g_error_free(cmd_err);
+        return;
+    }
+
+    pTab->matches = g_array_new(FALSE, TRUE, sizeof(struct Match));
+    termit_tab_add_matches(pTab, configs.matches);
+    vte_terminal_set_font(vte, pTab->style.font);
+
     guint l = 0;
     if (ti->argv == NULL) {
         l = 1;
@@ -409,7 +438,6 @@ void termit_append_tab_with_details(const struct TabInfo* ti)
     }
     g_assert(l >= 1);
     /* parse command */
-    GError *cmd_err = NULL;
     if (l == 1) { // arguments may be in one compound string
         gchar **cmd_argv;
         if (!g_shell_parse_argv(pTab->argv[0], NULL, &cmd_argv, &cmd_err)) {
@@ -428,37 +456,16 @@ void termit_append_tab_with_details(const struct TabInfo* ti)
         pTab->argv[0] = g_strdup(cmd_path);
         g_free(cmd_path);
     }
-    if (vte_terminal_spawn_sync(vte,
+    vte_terminal_spawn_async(vte,
             VTE_PTY_DEFAULT,
             ti->working_dir,
             pTab->argv, NULL,
-            0, NULL, NULL,
-            &pTab->pid,
+            0,
+            NULL, NULL, NULL,
+            -1, // default timeout
             NULL, // g_cancellable_new
-            &cmd_err) != TRUE) {
-        ERROR("failed to open tab: %s", cmd_err->message);
-        g_error_free(cmd_err);
-        return;
-    }
-    TRACE("command=%s pid=%d", pTab->argv[0], pTab->pid);
-
-    g_signal_connect(G_OBJECT(pTab->vte), "bell", G_CALLBACK(termit_on_beep), pTab);
-    g_signal_connect(G_OBJECT(pTab->vte), "focus-in-event", G_CALLBACK(termit_on_focus), pTab);
-    g_signal_connect(G_OBJECT(pTab->vte), "window-title-changed", G_CALLBACK(termit_on_tab_title_changed), NULL);
-
-    pTab->onChildExitedHandlerId = g_signal_connect(G_OBJECT(pTab->vte), "child-exited", G_CALLBACK(termit_on_child_exited), NULL);
-    g_signal_connect_swapped(G_OBJECT(pTab->vte), "button-press-event", G_CALLBACK(termit_on_popup), NULL);
-
-    if (vte_terminal_set_encoding(vte, pTab->encoding, &cmd_err) != TRUE) {
-        ERROR("cannot set encoding (%s): %s", pTab->encoding, cmd_err->message);
-        g_error_free(cmd_err);
-        return;
-    }
-
-    pTab->matches = g_array_new(FALSE, TRUE, sizeof(struct Match));
-    termit_tab_add_matches(pTab, configs.matches);
-    vte_terminal_set_font(vte, pTab->style.font);
-
+            termit_on_spawn,
+            pTab);
     gint index = gtk_notebook_append_page(GTK_NOTEBOOK(termit.notebook), pTab->hbox, pTab->tab_name);
     if (index == -1) {
         ERROR("%s", _("Cannot create a new tab"));
