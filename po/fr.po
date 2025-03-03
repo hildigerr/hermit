@@ -12,90 +12,69 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 
-#: src/termit_preferences.c:218
 msgid "Apply to all tabs"
 msgstr "Appliquer à tous les onglets"
 
-#: src/termit_preferences.c:212
 msgid "Audible bell"
 msgstr "Cloche sonore"
 
-#: src/termit_preferences.c:206
 msgid "Background"
 msgstr "Fond"
 
-#: src/termit_core_api.c:440
 msgid "Cannot create a new tab"
 msgstr "Impossible de créer un nouvel onglet"
 
-#: src/termit_core_api.c:392
 msgid "Cannot parse command. Creating tab with shell"
 msgstr "Impossible d'analyser la commande. Création d'onglet avec shell"
 
-#: src/termit.c:172 src/termit.c:225
 msgid "Close tab"
 msgstr "Fermer l'onglet"
 
-#: src/termit.c:189 src/termit.c:228
 msgid "Copy"
 msgstr "Copie"
 
-#: src/termit.c:192
 msgid "Edit"
 msgstr "Éditer"
 
-#: src/termit.c:175
 msgid "File"
 msgstr "Fichier"
 
-#: src/termit_preferences.c:192
 msgid "Font"
 msgstr "Fonte"
 
-#: src/termit_preferences.c:199
 msgid "Foreground"
 msgstr "Premier plan"
 
 #. File menu
-#: src/termit.c:171 src/termit.c:224
 msgid "New tab"
 msgstr "Nouvel onglet"
 
 #. Sessions menu
-#: src/termit.c:204 src/callbacks.c:395
 msgid "Open session"
 msgstr "Ouvrir une session"
 
-#: src/termit.c:190 src/termit.c:229
 msgid "Paste"
 msgstr "Coller"
 
-#: src/termit.c:188 src/termit.c:227 src/termit_preferences.c:166
 msgid "Preferences"
 msgstr "Préférences"
 
-#: src/termit.c:173 src/termit.c:230
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/termit.c:205 src/callbacks.c:365
 msgid "Save session"
 msgstr "Enregistrer la session"
 
-#: src/termit.c:231
 msgid "Scrollbar"
 msgstr "Barre de défilement"
 
-#: src/termit.c:207
 msgid "Sessions"
 msgstr "Sessions"
 
 #. Edit menu
-#: src/termit.c:187 src/termit.c:226
 msgid "Set tab name..."
 msgstr "Définir le nom de l'onglet..."
 
-#: src/callbacks.c:41
 msgid ""
 "Several tabs are opened.\n"
 "Close anyway?"
@@ -103,16 +82,13 @@ msgstr ""
 "Vous êtes sur le point de fermer plusieurs onglets.\n"
 "Voulez-vous vraiment continuer ?"
 
-#: src/callbacks.c:274 src/callbacks.c:285
 msgid "Tab name"
 msgstr "Nom de l'onglet"
 
-#: src/termit_preferences.c:186
 #, fuzzy
 msgid "Title"
 msgstr "Fichier"
 
-#: src/sessions.c:90
 #, c-format
 msgid "Unable to create directory '%s': %s"
 msgstr "Impossible de créer le dossier '%s': %s"

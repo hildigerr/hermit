@@ -17,86 +17,70 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: src/termit_preferences.c:218
 msgid "Apply to all tabs"
 msgstr ""
 
-#: src/termit_preferences.c:206
+#, fuzzy
+msgid "Audible bell"
+msgstr "Głośny dzwonek"
+
 msgid "Background"
 msgstr "Tło"
 
-#: src/termit_core_api.c:440
 msgid "Cannot create a new tab"
 msgstr "Nie można utworzyć nowej karty"
 
-#: src/termit_core_api.c:392
 msgid "Cannot parse command. Creating tab with shell"
 msgstr "Nie można przetworzyć polecenia. Tworzenia karty z powłoki"
 
-#: src/termit.c:189 src/termit.c:228
-msgid "Copy"
-msgstr ""
-
-#: src/termit.c:172 src/termit.c:225
 msgid "Close tab"
 msgstr ""
 
-#: src/termit.c:192
+msgid "Copy"
+msgstr ""
+
 msgid "Edit"
 msgstr "Edycja"
 
-#: src/termit.c:175
 msgid "File"
 msgstr "Plik"
 
-#: src/termit_preferences.c:192
 msgid "Font"
 msgstr "Czcionka"
 
-#: src/termit_preferences.c:199
 msgid "Foreground"
 msgstr "Pierwszy plan"
 
 #. File menu
-#: src/termit.c:171 src/termit.c:224
 msgid "New tab"
 msgstr ""
 
 #. Sessions menu
-#: src/termit.c:204 src/callbacks.c:395
 msgid "Open session"
 msgstr "Otwórz sesje"
 
-#: src/termit.c:190 src/termit.c:229
 msgid "Paste"
 msgstr ""
 
-#: src/termit.c:188 src/termit.c:227 src/termit_preferences.c:166
 msgid "Preferences"
 msgstr ""
 
-#: src/termit.c:173 src/termit.c:230
 msgid "Quit"
 msgstr ""
 
-#: src/termit.c:205 src/callbacks.c:365
 msgid "Save session"
 msgstr "Zapisz sesje "
 
-#: src/termit.c:231
 msgid "Scrollbar"
 msgstr "Pasek przewijania"
 
-#: src/termit.c:207
 msgid "Sessions"
 msgstr "Sesja"
 
 #. Edit menu
-#: src/termit.c:187 src/termit.c:226
 msgid "Set tab name..."
 msgstr "Ustaw nazwe karty..."
 
-#: src/callbacks.c:41
 msgid ""
 "Several tabs are opened.\n"
 "Close anyway?"
@@ -104,23 +88,15 @@ msgstr ""
 "Kilka kart jest otwartych.\n"
 "Zamknąć pomimo to?"
 
-#: src/callbacks.c:274 src/callbacks.c:285
 msgid "Tab name"
 msgstr "Nazwa Karty"
 
-#: src/termit_preferences.c:186
 msgid "Title"
 msgstr "Tytuł"
 
-#: src/sessions.c:90
 #, c-format
 msgid "Unable to create directory '%s': %s"
 msgstr "Nie można utworzyć katalogu '%s': %s"
-
-#: src/termit_preferences.c:212
-#, fuzzy
-msgid "Audible bell"
-msgstr "Głośny dzwonek"
 
 #~ msgid "Background image"
 #~ msgstr "Obraz tła"

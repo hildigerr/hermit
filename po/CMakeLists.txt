@@ -39,7 +39,7 @@ ELSE(NOT ENABLE_NLS)
   ADD_CUSTOM_COMMAND(
     OUTPUT ${POT_FILE}
     COMMAND ${XGETTEXT_EXECUTABLE}
-    ARGS -o ${POT_FILE} -s --directory=${TERMIT_SOURCE_DIR} --omit-header --msgid-bugs-address=${TERMIT_PACKAGE_BUGREPORT} -c --keyword=_ --copyright-holder=${COPYRIGHT_HOLDER} ${PO_SOURCE_FILES}
+    ARGS -o ${POT_FILE} -s --directory=${TERMIT_SOURCE_DIR} --omit-header --msgid-bugs-address=${TERMIT_PACKAGE_BUGREPORT} -c --keyword=_ --copyright-holder=${COPYRIGHT_HOLDER} --no-location ${PO_SOURCE_FILES}
     DEPENDS ${PO_SOURCE_FILES_FULL_PATH})
   ADD_CUSTOM_TARGET(pot DEPENDS ${PO_SOURCE_FILES_FULL_PATH} ${POT_FILE})
 
@@ -50,7 +50,7 @@ ELSE(NOT ENABLE_NLS)
     SET(_gmofile ${CMAKE_CURRENT_BINARY_DIR}/${LANG}.gmo)
     ADD_CUSTOM_COMMAND(
       OUTPUT ${_gmofile}
-      COMMAND ${MSGMERGE_EXECUTABLE} ARGS --quiet --update -s ${CMAKE_CURRENT_SOURCE_DIR}/${PO_FILE} ${POT_FILE}
+      COMMAND ${MSGMERGE_EXECUTABLE} ARGS --quiet --update --no-location -s ${CMAKE_CURRENT_SOURCE_DIR}/${PO_FILE} ${POT_FILE}
       COMMAND ${MSGFMT_EXECUTABLE} ARGS -o ${_gmofile} ${CMAKE_CURRENT_SOURCE_DIR}/${PO_FILE}
       DEPENDS ${POT_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/${PO_FILE}
       COMMENT "Language: ${LANG}")

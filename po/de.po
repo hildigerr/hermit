@@ -16,92 +16,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/termit_preferences.c:218
 msgid "Apply to all tabs"
 msgstr "Auf alle Tabs anwenden"
 
-#: src/termit_preferences.c:212
 #, fuzzy
 msgid "Audible bell"
 msgstr "Glocke"
 
-#: src/termit_preferences.c:206
 msgid "Background"
 msgstr "Hintergrund"
 
-#: src/termit_core_api.c:440
 msgid "Cannot create a new tab"
 msgstr "Konnte keinen neuen Tab erzeugen"
 
-#: src/termit_core_api.c:392
 msgid "Cannot parse command. Creating tab with shell"
 msgstr ""
 "Konnte Befehl nicht untersuchen. Erstelle einen Tab mit der Kommandozeile"
 
-#: src/termit.c:172 src/termit.c:225
 msgid "Close tab"
 msgstr "Tab schliessen"
 
-#: src/termit.c:189 src/termit.c:228
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/termit.c:192
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/termit.c:175
 msgid "File"
 msgstr "Datei"
 
-#: src/termit_preferences.c:192
 msgid "Font"
 msgstr "Schriftart"
 
-#: src/termit_preferences.c:199
 msgid "Foreground"
 msgstr "Vordergrund"
 
 #. File menu
-#: src/termit.c:171 src/termit.c:224
 msgid "New tab"
 msgstr "Neuen Tab"
 
 #. Sessions menu
-#: src/termit.c:204 src/callbacks.c:395
 msgid "Open session"
 msgstr "Sitzung öffnen"
 
-#: src/termit.c:190 src/termit.c:229
 msgid "Paste"
 msgstr "Einfügen"
 
-#: src/termit.c:188 src/termit.c:227 src/termit_preferences.c:166
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: src/termit.c:173 src/termit.c:230
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/termit.c:205 src/callbacks.c:365
 msgid "Save session"
 msgstr "Sitzung speichern"
 
-#: src/termit.c:231
 msgid "Scrollbar"
 msgstr "Bildlaufleiste"
 
-#: src/termit.c:207
 msgid "Sessions"
 msgstr "Sitzungen"
 
 #. Edit menu
-#: src/termit.c:187 src/termit.c:226
 msgid "Set tab name..."
 msgstr "Tab-Namen setzen..."
 
-#: src/callbacks.c:41
 msgid ""
 "Several tabs are opened.\n"
 "Close anyway?"
@@ -109,15 +88,12 @@ msgstr ""
 "Mehrere Tabs sind geöffnet.\n"
 "Trotzdem schließen?"
 
-#: src/callbacks.c:274 src/callbacks.c:285
 msgid "Tab name"
 msgstr "Tab-Name"
 
-#: src/termit_preferences.c:186
 msgid "Title"
 msgstr "Titel"
 
-#: src/sessions.c:90
 #, c-format
 msgid "Unable to create directory '%s': %s"
 msgstr "Konnte Verzeichnis '%s' nicht erstellen: %s"
