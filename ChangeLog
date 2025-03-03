@@ -1,3 +1,6 @@
+version 3.2.1
+	add Catalan translation (by SwissalpS)
+	add Dutch translation (by Vistaus)
 	add gruvbox colormaps (by zzgraph)
 	refactored several deprecated functions
 	rename lua_api.txt to md because it is markdown
